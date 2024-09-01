@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../core.dart';
+import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
 
 class YesNoToggle extends StatefulWidget {
   final String label;
@@ -35,9 +34,7 @@ class _YesNoToggleState extends State<YesNoToggle> {
     setState(() {
       isYesSelected = value;
     });
-    if (widget.onChanged != null) {
-      widget.onChanged!(isYesSelected);
-    }
+    widget.onChanged?.call(isYesSelected);
   }
 
   @override
@@ -97,11 +94,8 @@ class _YesNoToggleState extends State<YesNoToggle> {
         decoration: BoxDecoration(
           color: isSelected ? AppColors.primary : Colors.transparent,
           borderRadius: BorderRadius.horizontal(
-            right:
-                isYesValue ? Radius.circular(widget.borderRadius) : Radius.zero,
-            left: !isYesValue
-                ? Radius.circular(widget.borderRadius)
-                : Radius.zero,
+            right: isYesValue ? Radius.circular(widget.borderRadius) : Radius.zero,
+            left: !isYesValue ? Radius.circular(widget.borderRadius) : Radius.zero,
           ),
         ),
         child: Text(

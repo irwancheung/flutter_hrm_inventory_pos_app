@@ -7,7 +7,7 @@ const List<String> _dayNames = [
   'Rabu',
   'Kamis',
   'Jumat',
-  'Sabtu'
+  'Sabtu',
 ];
 
 const List<String> _monthNames = [
@@ -22,7 +22,7 @@ const List<String> _monthNames = [
   'September',
   'Oktober',
   'November',
-  'Desember'
+  'Desember',
 ];
 
 extension DateTimeExt on DateTime {
@@ -33,16 +33,16 @@ extension DateTimeExt on DateTime {
   }
 
   String toFormattedTime() {
-    String hour = this.hour.toString().padLeft(2, '0');
-    String minute = this.minute.toString().padLeft(2, '0');
+    final String hour = this.hour.toString().padLeft(2, '0');
+    final String minute = this.minute.toString().padLeft(2, '0');
     return '$hour:$minute WIB';
   }
 }
 
 extension TimeOfDayExt on TimeOfDay {
   String toFormattedTime() {
-    String hour = this.hour.toString().padLeft(2, '0');
-    String minute = this.minute.toString().padLeft(2, '0');
+    final String hour = this.hour.toString().padLeft(2, '0');
+    final String minute = this.minute.toString().padLeft(2, '0');
     return '$hour:$minute WIB';
   }
 }

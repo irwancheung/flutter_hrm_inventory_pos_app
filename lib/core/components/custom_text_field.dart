@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../constants/colors.dart';
-import 'spaces.dart';
+import 'package:flutter_hrm_inventory_pos_app/core/components/spaces.dart';
+import 'package:flutter_hrm_inventory_pos_app/core/constants/colors.dart';
 
 class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
@@ -87,9 +86,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             suffixIcon: widget.obscureText
                 ? IconButton(
                     icon: Icon(
-                      _obscureText
-                          ? Icons.visibility_off_outlined
-                          : Icons.visibility_outlined,
+                      _obscureText ? Icons.visibility_off_outlined : Icons.visibility_outlined,
                     ),
                     onPressed: _toggleObscureText,
                   )

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../constants/colors.dart';
-import 'spaces.dart';
+import 'package:flutter_hrm_inventory_pos_app/core/components/spaces.dart';
+import 'package:flutter_hrm_inventory_pos_app/core/constants/colors.dart';
 
 class CustomDropdown extends StatelessWidget {
   final String? value;

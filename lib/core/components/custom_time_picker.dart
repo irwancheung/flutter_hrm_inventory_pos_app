@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../core.dart';
+import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
 
 class CustomTimePicker extends StatefulWidget {
   final void Function(TimeOfDay selectedTime)? onTimeSelected;
@@ -55,9 +54,7 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
         selectedTime = picked;
         controller.text = selectedTime.toFormattedTime();
       });
-      if (widget.onTimeSelected != null) {
-        widget.onTimeSelected!(picked);
-      }
+      widget.onTimeSelected?.call(picked);
     }
   }
 
@@ -90,9 +87,7 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
               borderSide: const BorderSide(color: AppColors.stroke),
             ),
             suffixIcon: const Icon(Icons.access_time),
-            hintText: widget.initialTime != null
-                ? selectedTime.toFormattedTime()
-                : widget.hintText ?? widget.label,
+            hintText: widget.initialTime != null ? selectedTime.toFormattedTime() : widget.hintText ?? widget.label,
           ),
         ),
       ],

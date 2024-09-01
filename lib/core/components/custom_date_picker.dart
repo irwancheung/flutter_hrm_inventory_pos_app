@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../core.dart';
+import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
 
 class CustomDatePicker extends StatefulWidget {
   final void Function(DateTime selectedDate)? onDateSelected;
@@ -57,9 +56,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
         selectedDate = picked;
         controller.text = selectedDate.toFormattedDate();
       });
-      if (widget.onDateSelected != null) {
-        widget.onDateSelected!(picked);
-      }
+      widget.onDateSelected?.call(picked);
     }
   }
 
@@ -92,9 +89,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
               borderSide: const BorderSide(color: AppColors.stroke),
             ),
             suffixIcon: const Icon(Icons.date_range),
-            hintText: widget.initialDate != null
-                ? selectedDate.toFormattedDate()
-                : widget.hintText ?? widget.label,
+            hintText: widget.initialDate != null ? selectedDate.toFormattedDate() : widget.hintText ?? widget.label,
           ),
         ),
       ],

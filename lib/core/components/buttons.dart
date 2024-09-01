@@ -1,25 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hrm_inventory_pos_app/core/constants/colors.dart';
 
-import '../constants/colors.dart';
+enum ButtonStyleType { filled, outlined }
 
 class Button extends StatelessWidget {
-  final VoidCallback onPressed;
-
-  final String label;
-
-  final ButtonStyleType style;
-  final Color color;
-  final Color textColor;
-  final double? width;
-  final double height;
-  final double borderRadius;
-  final Widget? icon;
-  final Widget? suffixIcon;
-  final bool disabled;
-  final double fontSize;
-  final FontWeight fontWeight;
-  final MainAxisAlignment mainAxisAlignment;
-  final EdgeInsetsGeometry? padding;
   const Button.filled({
     super.key,
     required this.onPressed,
@@ -38,6 +22,7 @@ class Button extends StatelessWidget {
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.padding,
   });
+
   const Button.outlined({
     super.key,
     required this.onPressed,
@@ -56,6 +41,22 @@ class Button extends StatelessWidget {
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.padding,
   });
+
+  final VoidCallback onPressed;
+  final String label;
+  final ButtonStyleType style;
+  final Color color;
+  final Color textColor;
+  final double? width;
+  final double height;
+  final double borderRadius;
+  final Widget? icon;
+  final Widget? suffixIcon;
+  final bool disabled;
+  final double fontSize;
+  final FontWeight fontWeight;
+  final MainAxisAlignment mainAxisAlignment;
+  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
@@ -125,5 +126,3 @@ class Button extends StatelessWidget {
     );
   }
 }
-
-enum ButtonStyleType { filled, outlined }

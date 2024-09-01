@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../core.dart';
+import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
 
 class SearchInput extends StatelessWidget {
   final TextEditingController controller;

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../assets/assets.dart';
-import '../constants/colors.dart';
-import 'components.dart';
+import 'package:flutter_hrm_inventory_pos_app/core/assets/assets.dart';
+import 'package:flutter_hrm_inventory_pos_app/core/components/components.dart';
+import 'package:flutter_hrm_inventory_pos_app/core/constants/colors.dart';
 
 class EmptyPlaceholder2 extends StatelessWidget {
   const EmptyPlaceholder2({super.key});

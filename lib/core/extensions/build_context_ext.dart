@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../assets/assets.dart';
-import '../components/components.dart';
-import '../constants/colors.dart';
+import 'package:flutter_hrm_inventory_pos_app/core/assets/assets.dart';
+import 'package:flutter_hrm_inventory_pos_app/core/components/components.dart';
+import 'package:flutter_hrm_inventory_pos_app/core/constants/colors.dart';
 
 extension BuildContextExt on BuildContext {
   double get deviceHeight => MediaQuery.of(this).size.height;
@@ -112,7 +112,7 @@ extension NavigatorExt on BuildContext {
   }
 
   Future<T?> pushReplacement<T extends Object, TO extends Object>(
-      Widget widget) async {
+      Widget widget,) async {
     return Navigator.pushReplacement<T, TO>(
       this,
       MaterialPageRoute(builder: (context) => widget),
@@ -120,7 +120,7 @@ extension NavigatorExt on BuildContext {
   }
 
   Future<T?> pushAndRemoveUntil<T extends Object>(
-      Widget widget, bool Function(Route<dynamic> route) predicate) async {
+      Widget widget, bool Function(Route<dynamic> route) predicate,) async {
     return Navigator.pushAndRemoveUntil<T>(
       this,
       MaterialPageRoute(builder: (context) => widget),
