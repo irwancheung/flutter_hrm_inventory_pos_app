@@ -82,11 +82,7 @@ class LoginPage extends StatelessWidget {
                           label: 'Login',
                         );
                       },
-                      loading: () {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
+                      loading: () => const Center(child: CircularProgressIndicator()),
                     );
                   },
                 ),

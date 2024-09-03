@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
 import 'package:flutter_hrm_inventory_pos_app/data/data_sources/auth_remote_data_source.dart';
+import 'package:flutter_hrm_inventory_pos_app/data/data_sources/department_remote_data_source.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/auth/bloc/login_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/auth/bloc/logout_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/auth/pages/splash_page.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/create_department_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/delete_department_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/get_departments_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/update_department_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -20,6 +25,10 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => LoginBloc(AuthRemoteDataSource())),
         BlocProvider(create: (context) => LogoutBloc(AuthRemoteDataSource())),
+        BlocProvider(create: (context) => GetDepartmentsBloc(DepartmentRemoteDataSource())),
+        BlocProvider(create: (context) => CreateDepartmentBloc(DepartmentRemoteDataSource())),
+        BlocProvider(create: (context) => UpdateDepartmentBloc(DepartmentRemoteDataSource())),
+        BlocProvider(create: (context) => DeleteDepartmentBloc(DepartmentRemoteDataSource())),
       ],
       child: MaterialApp(
         title: 'Flutter HRM Inventory POS App',

@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/add_new_staff_member.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/delete_dialog.dart';
@@ -73,10 +72,11 @@ class _StaffMemberPageState extends State<StaffMemberPage> {
                         hintText: 'Quick search..',
                         onChanged: (value) {
                           searchResult = staffMembers
-                              .where((element) => element.name
-                                  .toLowerCase()
-                                  .contains(
-                                      searchController.text.toLowerCase(),),)
+                              .where(
+                                (element) => element.name.toLowerCase().contains(
+                                      searchController.text.toLowerCase(),
+                                    ),
+                              )
                               .toList();
                           setState(() {});
                         },
@@ -134,13 +134,15 @@ class _StaffMemberPageState extends State<StaffMemberPage> {
                                   ? [
                                       const DataRow(
                                         cells: [
-                                          DataCell(Row(
-                                            children: [
-                                              Icon(Icons.highlight_off),
-                                              SpaceWidth(4.0),
-                                              Text('Data tidak ditemukan..'),
-                                            ],
-                                          ),),
+                                          DataCell(
+                                            Row(
+                                              children: [
+                                                Icon(Icons.highlight_off),
+                                                SpaceWidth(4.0),
+                                                Text('Data tidak ditemukan..'),
+                                              ],
+                                            ),
+                                          ),
                                           DataCell.empty,
                                           DataCell.empty,
                                           DataCell.empty,
@@ -153,98 +155,109 @@ class _StaffMemberPageState extends State<StaffMemberPage> {
                                     ]
                                   : searchResult
                                       .map(
-                                        (item) => DataRow(cells: [
-                                          DataCell(
-                                            SizedBox(
-                                              height: 24.0,
-                                              width: 24.0,
-                                              child: Checkbox(
-                                                value: false,
-                                                onChanged: (value) {},
-                                              ),
-                                            ),
-                                          ),
-                                          DataCell(ListTile(
-                                            contentPadding: EdgeInsets.zero,
-                                            title: Text(item.name),
-                                            titleTextStyle: const TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.w500,
-                                              color: AppColors.black,
-                                            ),
-                                            subtitle: Text(item.username),
-                                            leading: ClipOval(
-                                              child: CachedNetworkImage(
-                                                imageUrl: item.imageUrl,
-                                                height: 40.0,
-                                                width: 40.0,
-                                                fit: BoxFit.cover,
-                                                placeholder: (context, url) =>
-                                                    const Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
+                                        (item) => DataRow(
+                                          cells: [
+                                            DataCell(
+                                              SizedBox(
+                                                height: 24.0,
+                                                width: 24.0,
+                                                child: Checkbox(
+                                                  value: false,
+                                                  onChanged: (value) {},
                                                 ),
                                               ),
                                             ),
-                                          ),),
-                                          DataCell(Text(item.shift)),
-                                          DataCell(Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0, vertical: 4.0,),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(6.0),
-                                              border: Border.all(
-                                                  color: AppColors.stroke,),
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Badge(
-                                                  backgroundColor: item.isEnabe
-                                                      ? AppColors.green
-                                                      : AppColors.red,
+                                            DataCell(
+                                              ListTile(
+                                                contentPadding: EdgeInsets.zero,
+                                                title: Text(item.name),
+                                                titleTextStyle: const TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: AppColors.black,
                                                 ),
-                                                const SpaceWidth(8.0),
-                                                Text(item.status),
-                                              ],
-                                            ),
-                                          ),),
-                                          DataCell(Text(item.departement)),
-                                          DataCell(Text(item.email)),
-                                          DataCell(Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0, vertical: 4.0,),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(16.0),
-                                              border: Border.all(
-                                                  color: AppColors.stroke,),
-                                              color: AppColors.light,
-                                            ),
-                                            child: Text(item.designation),
-                                          ),),
-                                          DataCell(Row(
-                                            children: [
-                                              IconButton(
-                                                onPressed: () => showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      DeleteDialog(
-                                                    onConfirmTap: () {},
+                                                subtitle: Text(item.username),
+                                                leading: ClipOval(
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: item.imageUrl,
+                                                    height: 40.0,
+                                                    width: 40.0,
+                                                    fit: BoxFit.cover,
+                                                    placeholder: (context, url) => const Center(
+                                                      child: CircularProgressIndicator(),
+                                                    ),
                                                   ),
                                                 ),
-                                                icon: const Icon(
-                                                    Icons.delete_outline,),
                                               ),
-                                              IconButton(
-                                                onPressed: () =>
-                                                    showEndDrawer(false, item),
-                                                icon: const Icon(
-                                                    Icons.edit_outlined,),
+                                            ),
+                                            DataCell(Text(item.shift)),
+                                            DataCell(
+                                              Container(
+                                                padding: const EdgeInsets.symmetric(
+                                                  horizontal: 8.0,
+                                                  vertical: 4.0,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(6.0),
+                                                  border: Border.all(
+                                                    color: AppColors.stroke,
+                                                  ),
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Badge(
+                                                      backgroundColor: item.isEnabe ? AppColors.green : AppColors.red,
+                                                    ),
+                                                    const SpaceWidth(8.0),
+                                                    Text(item.status),
+                                                  ],
+                                                ),
                                               ),
-                                            ],
-                                          ),),
-                                        ],),
+                                            ),
+                                            DataCell(Text(item.departement)),
+                                            DataCell(Text(item.email)),
+                                            DataCell(
+                                              Container(
+                                                padding: const EdgeInsets.symmetric(
+                                                  horizontal: 8.0,
+                                                  vertical: 4.0,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(16.0),
+                                                  border: Border.all(
+                                                    color: AppColors.stroke,
+                                                  ),
+                                                  color: AppColors.light,
+                                                ),
+                                                child: Text(item.designation),
+                                              ),
+                                            ),
+                                            DataCell(
+                                              Row(
+                                                children: [
+                                                  IconButton(
+                                                    onPressed: () => showDialog(
+                                                      context: context,
+                                                      builder: (context) => DeleteDialog(
+                                                        id: 0,
+                                                        onConfirmTap: () {},
+                                                      ),
+                                                    ),
+                                                    icon: const Icon(
+                                                      Icons.delete_outline,
+                                                    ),
+                                                  ),
+                                                  IconButton(
+                                                    onPressed: () => showEndDrawer(false, item),
+                                                    icon: const Icon(
+                                                      Icons.edit_outlined,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       )
                                       .toList(),
                             ),

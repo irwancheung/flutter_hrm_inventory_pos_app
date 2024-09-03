@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/models/departement_model.dart';
+import 'package:flutter_hrm_inventory_pos_app/data/models/response/department_response_model.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/get_departments_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/update_department_bloc.dart';
 
 class EditDepartement extends StatefulWidget {
-  final DepartementModel item;
-  final VoidCallback onConfirmTap;
-  const EditDepartement({
-    super.key,
-    required this.item,
-    required this.onConfirmTap,
-  });
+  final Department item;
+  const EditDepartement({super.key, required this.item});
 
   @override
   State<EditDepartement> createState() => _EditDepartementState();
@@ -22,10 +19,8 @@ class _EditDepartementState extends State<EditDepartement> {
 
   @override
   void initState() {
-    departementNameController =
-        TextEditingController(text: widget.item.departementName);
-    descriptionController =
-        TextEditingController(text: widget.item.description);
+    departementNameController = TextEditingController(text: widget.item.name);
+    descriptionController = TextEditingController(text: widget.item.description);
     super.initState();
   }
 
@@ -73,15 +68,47 @@ class _EditDepartementState extends State<EditDepartement> {
                 Row(
                   children: [
                     Flexible(
-                        child: Button.outlined(
-                      onPressed: () => context.pop(),
-                      label: 'Cancel',
-                    ),),
+                      child: Button.outlined(
+                        onPressed: () => context.pop(),
+                        label: 'Cancel',
+                      ),
+                    ),
                     const SpaceWidth(16.0),
                     Flexible(
-                      child: Button.filled(
-                        onPressed: widget.onConfirmTap,
-                        label: 'Update',
+                      child: BlocConsumer<UpdateDepartmentBloc, UpdateDepartmentState>(
+                        listener: (context, state) {
+                          state.maybeWhen(
+                            orElse: () {},
+                            loaded: () {
+                              context.read<GetDepartmentsBloc>().add(const GetDepartmentsEvent.getDepartments());
+                              context.pop();
+                            },
+                            error: (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(e), backgroundColor: Colors.red),
+                              );
+                            },
+                          );
+                        },
+                        builder: (context, state) {
+                          return state.maybeWhen(
+                            orElse: () {
+                              return Button.filled(
+                                onPressed: () {
+                                  context.read<UpdateDepartmentBloc>().add(
+                                        UpdateDepartmentEvent.updateDepartment(
+                                          id: widget.item.id!,
+                                          name: departementNameController.text,
+                                          description: descriptionController.text,
+                                        ),
+                                      );
+                                },
+                                label: 'Update',
+                              );
+                            },
+                            loading: () => const Center(child: CircularProgressIndicator()),
+                          );
+                        },
                       ),
                     ),
                   ],

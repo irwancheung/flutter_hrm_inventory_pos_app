@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'logout_bloc.dart';
+part of 'create_department_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,65 +15,66 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$LogoutEvent {
+mixin _$CreateDepartmentEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() logout,
+    required TResult Function(String name, String description) createDepartment,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? logout,
+    TResult? Function(String name, String description)? createDepartment,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? logout,
+    TResult Function(String name, String description)? createDepartment,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_Logout value) logout,
+    required TResult Function(_CreateDepartment value) createDepartment,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_Logout value)? logout,
+    TResult? Function(_CreateDepartment value)? createDepartment,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_Logout value)? logout,
+    TResult Function(_CreateDepartment value)? createDepartment,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $LogoutEventCopyWith<$Res> {
-  factory $LogoutEventCopyWith(
-          LogoutEvent value, $Res Function(LogoutEvent) then) =
-      _$LogoutEventCopyWithImpl<$Res, LogoutEvent>;
+abstract class $CreateDepartmentEventCopyWith<$Res> {
+  factory $CreateDepartmentEventCopyWith(CreateDepartmentEvent value,
+          $Res Function(CreateDepartmentEvent) then) =
+      _$CreateDepartmentEventCopyWithImpl<$Res, CreateDepartmentEvent>;
 }
 
 /// @nodoc
-class _$LogoutEventCopyWithImpl<$Res, $Val extends LogoutEvent>
-    implements $LogoutEventCopyWith<$Res> {
-  _$LogoutEventCopyWithImpl(this._value, this._then);
+class _$CreateDepartmentEventCopyWithImpl<$Res,
+        $Val extends CreateDepartmentEvent>
+    implements $CreateDepartmentEventCopyWith<$Res> {
+  _$CreateDepartmentEventCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of LogoutEvent
+  /// Create a copy of CreateDepartmentEvent
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -86,13 +87,13 @@ abstract class _$$StartedImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$StartedImplCopyWithImpl<$Res>
-    extends _$LogoutEventCopyWithImpl<$Res, _$StartedImpl>
+    extends _$CreateDepartmentEventCopyWithImpl<$Res, _$StartedImpl>
     implements _$$StartedImplCopyWith<$Res> {
   __$$StartedImplCopyWithImpl(
       _$StartedImpl _value, $Res Function(_$StartedImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of LogoutEvent
+  /// Create a copy of CreateDepartmentEvent
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -103,7 +104,7 @@ class _$StartedImpl implements _Started {
 
   @override
   String toString() {
-    return 'LogoutEvent.started()';
+    return 'CreateDepartmentEvent.started()';
   }
 
   @override
@@ -119,7 +120,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() logout,
+    required TResult Function(String name, String description) createDepartment,
   }) {
     return started();
   }
@@ -128,7 +129,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? logout,
+    TResult? Function(String name, String description)? createDepartment,
   }) {
     return started?.call();
   }
@@ -137,7 +138,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? logout,
+    TResult Function(String name, String description)? createDepartment,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -150,7 +151,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_Logout value) logout,
+    required TResult Function(_CreateDepartment value) createDepartment,
   }) {
     return started(this);
   }
@@ -159,7 +160,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_Logout value)? logout,
+    TResult? Function(_CreateDepartment value)? createDepartment,
   }) {
     return started?.call(this);
   }
@@ -168,7 +169,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_Logout value)? logout,
+    TResult Function(_CreateDepartment value)? createDepartment,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -178,75 +179,112 @@ class _$StartedImpl implements _Started {
   }
 }
 
-abstract class _Started implements LogoutEvent {
+abstract class _Started implements CreateDepartmentEvent {
   const factory _Started() = _$StartedImpl;
 }
 
 /// @nodoc
-abstract class _$$LogoutImplCopyWith<$Res> {
-  factory _$$LogoutImplCopyWith(
-          _$LogoutImpl value, $Res Function(_$LogoutImpl) then) =
-      __$$LogoutImplCopyWithImpl<$Res>;
+abstract class _$$CreateDepartmentImplCopyWith<$Res> {
+  factory _$$CreateDepartmentImplCopyWith(_$CreateDepartmentImpl value,
+          $Res Function(_$CreateDepartmentImpl) then) =
+      __$$CreateDepartmentImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String name, String description});
 }
 
 /// @nodoc
-class __$$LogoutImplCopyWithImpl<$Res>
-    extends _$LogoutEventCopyWithImpl<$Res, _$LogoutImpl>
-    implements _$$LogoutImplCopyWith<$Res> {
-  __$$LogoutImplCopyWithImpl(
-      _$LogoutImpl _value, $Res Function(_$LogoutImpl) _then)
+class __$$CreateDepartmentImplCopyWithImpl<$Res>
+    extends _$CreateDepartmentEventCopyWithImpl<$Res, _$CreateDepartmentImpl>
+    implements _$$CreateDepartmentImplCopyWith<$Res> {
+  __$$CreateDepartmentImplCopyWithImpl(_$CreateDepartmentImpl _value,
+      $Res Function(_$CreateDepartmentImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of LogoutEvent
+  /// Create a copy of CreateDepartmentEvent
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? description = null,
+  }) {
+    return _then(_$CreateDepartmentImpl(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 
-class _$LogoutImpl implements _Logout {
-  const _$LogoutImpl();
+class _$CreateDepartmentImpl implements _CreateDepartment {
+  const _$CreateDepartmentImpl({required this.name, required this.description});
+
+  @override
+  final String name;
+  @override
+  final String description;
 
   @override
   String toString() {
-    return 'LogoutEvent.logout()';
+    return 'CreateDepartmentEvent.createDepartment(name: $name, description: $description)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$LogoutImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$CreateDepartmentImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, name, description);
+
+  /// Create a copy of CreateDepartmentEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateDepartmentImplCopyWith<_$CreateDepartmentImpl> get copyWith =>
+      __$$CreateDepartmentImplCopyWithImpl<_$CreateDepartmentImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function() logout,
+    required TResult Function(String name, String description) createDepartment,
   }) {
-    return logout();
+    return createDepartment(name, description);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function()? logout,
+    TResult? Function(String name, String description)? createDepartment,
   }) {
-    return logout?.call();
+    return createDepartment?.call(name, description);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function()? logout,
+    TResult Function(String name, String description)? createDepartment,
     required TResult orElse(),
   }) {
-    if (logout != null) {
-      return logout();
+    if (createDepartment != null) {
+      return createDepartment(name, description);
     }
     return orElse();
   }
@@ -255,40 +293,51 @@ class _$LogoutImpl implements _Logout {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
-    required TResult Function(_Logout value) logout,
+    required TResult Function(_CreateDepartment value) createDepartment,
   }) {
-    return logout(this);
+    return createDepartment(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
-    TResult? Function(_Logout value)? logout,
+    TResult? Function(_CreateDepartment value)? createDepartment,
   }) {
-    return logout?.call(this);
+    return createDepartment?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
-    TResult Function(_Logout value)? logout,
+    TResult Function(_CreateDepartment value)? createDepartment,
     required TResult orElse(),
   }) {
-    if (logout != null) {
-      return logout(this);
+    if (createDepartment != null) {
+      return createDepartment(this);
     }
     return orElse();
   }
 }
 
-abstract class _Logout implements LogoutEvent {
-  const factory _Logout() = _$LogoutImpl;
+abstract class _CreateDepartment implements CreateDepartmentEvent {
+  const factory _CreateDepartment(
+      {required final String name,
+      required final String description}) = _$CreateDepartmentImpl;
+
+  String get name;
+  String get description;
+
+  /// Create a copy of CreateDepartmentEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CreateDepartmentImplCopyWith<_$CreateDepartmentImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-mixin _$LogoutState {
+mixin _$CreateDepartmentState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
@@ -342,23 +391,24 @@ mixin _$LogoutState {
 }
 
 /// @nodoc
-abstract class $LogoutStateCopyWith<$Res> {
-  factory $LogoutStateCopyWith(
-          LogoutState value, $Res Function(LogoutState) then) =
-      _$LogoutStateCopyWithImpl<$Res, LogoutState>;
+abstract class $CreateDepartmentStateCopyWith<$Res> {
+  factory $CreateDepartmentStateCopyWith(CreateDepartmentState value,
+          $Res Function(CreateDepartmentState) then) =
+      _$CreateDepartmentStateCopyWithImpl<$Res, CreateDepartmentState>;
 }
 
 /// @nodoc
-class _$LogoutStateCopyWithImpl<$Res, $Val extends LogoutState>
-    implements $LogoutStateCopyWith<$Res> {
-  _$LogoutStateCopyWithImpl(this._value, this._then);
+class _$CreateDepartmentStateCopyWithImpl<$Res,
+        $Val extends CreateDepartmentState>
+    implements $CreateDepartmentStateCopyWith<$Res> {
+  _$CreateDepartmentStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of LogoutState
+  /// Create a copy of CreateDepartmentState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -371,13 +421,13 @@ abstract class _$$InitialImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$LogoutStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$CreateDepartmentStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of LogoutState
+  /// Create a copy of CreateDepartmentState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -388,7 +438,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'LogoutState.initial()';
+    return 'CreateDepartmentState.initial()';
   }
 
   @override
@@ -475,7 +525,7 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements LogoutState {
+abstract class _Initial implements CreateDepartmentState {
   const factory _Initial() = _$InitialImpl;
 }
 
@@ -488,13 +538,13 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$LogoutStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$CreateDepartmentStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of LogoutState
+  /// Create a copy of CreateDepartmentState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -505,7 +555,7 @@ class _$LoadingImpl implements _Loading {
 
   @override
   String toString() {
-    return 'LogoutState.loading()';
+    return 'CreateDepartmentState.loading()';
   }
 
   @override
@@ -592,7 +642,7 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements LogoutState {
+abstract class _Loading implements CreateDepartmentState {
   const factory _Loading() = _$LoadingImpl;
 }
 
@@ -605,13 +655,13 @@ abstract class _$$LoadedImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadedImplCopyWithImpl<$Res>
-    extends _$LogoutStateCopyWithImpl<$Res, _$LoadedImpl>
+    extends _$CreateDepartmentStateCopyWithImpl<$Res, _$LoadedImpl>
     implements _$$LoadedImplCopyWith<$Res> {
   __$$LoadedImplCopyWithImpl(
       _$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of LogoutState
+  /// Create a copy of CreateDepartmentState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -622,7 +672,7 @@ class _$LoadedImpl implements _Loaded {
 
   @override
   String toString() {
-    return 'LogoutState.loaded()';
+    return 'CreateDepartmentState.loaded()';
   }
 
   @override
@@ -709,7 +759,7 @@ class _$LoadedImpl implements _Loaded {
   }
 }
 
-abstract class _Loaded implements LogoutState {
+abstract class _Loaded implements CreateDepartmentState {
   const factory _Loaded() = _$LoadedImpl;
 }
 
@@ -724,13 +774,13 @@ abstract class _$$ErrorImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$LogoutStateCopyWithImpl<$Res, _$ErrorImpl>
+    extends _$CreateDepartmentStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of LogoutState
+  /// Create a copy of CreateDepartmentState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -756,7 +806,7 @@ class _$ErrorImpl implements _Error {
 
   @override
   String toString() {
-    return 'LogoutState.error(message: $message)';
+    return 'CreateDepartmentState.error(message: $message)';
   }
 
   @override
@@ -770,7 +820,7 @@ class _$ErrorImpl implements _Error {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of LogoutState
+  /// Create a copy of CreateDepartmentState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -853,12 +903,12 @@ class _$ErrorImpl implements _Error {
   }
 }
 
-abstract class _Error implements LogoutState {
+abstract class _Error implements CreateDepartmentState {
   const factory _Error(final String message) = _$ErrorImpl;
 
   String get message;
 
-  /// Create a copy of LogoutState
+  /// Create a copy of CreateDepartmentState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>

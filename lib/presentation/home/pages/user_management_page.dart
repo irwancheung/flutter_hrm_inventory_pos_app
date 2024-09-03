@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/delete_dialog.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/edit_permission_user.dart';
@@ -72,10 +71,11 @@ class _UserManagementPageState extends State<UserManagementPage> {
                         hintText: 'Quick search..',
                         onChanged: (value) {
                           searchResult = userManagements
-                              .where((element) => element.roleName
-                                  .toLowerCase()
-                                  .contains(
-                                      searchController.text.toLowerCase(),),)
+                              .where(
+                                (element) => element.roleName.toLowerCase().contains(
+                                      searchController.text.toLowerCase(),
+                                    ),
+                              )
                               .toList();
                           setState(() {});
                         },
@@ -129,13 +129,15 @@ class _UserManagementPageState extends State<UserManagementPage> {
                                   ? [
                                       const DataRow(
                                         cells: [
-                                          DataCell(Row(
-                                            children: [
-                                              Icon(Icons.highlight_off),
-                                              SpaceWidth(4.0),
-                                              Text('Data tidak ditemukan..'),
-                                            ],
-                                          ),),
+                                          DataCell(
+                                            Row(
+                                              children: [
+                                                Icon(Icons.highlight_off),
+                                                SpaceWidth(4.0),
+                                                Text('Data tidak ditemukan..'),
+                                              ],
+                                            ),
+                                          ),
                                           DataCell.empty,
                                           DataCell.empty,
                                           DataCell.empty,
@@ -144,41 +146,46 @@ class _UserManagementPageState extends State<UserManagementPage> {
                                     ]
                                   : searchResult
                                       .map(
-                                        (item) => DataRow(cells: [
-                                          DataCell(
-                                            SizedBox(
-                                              height: 24.0,
-                                              width: 24.0,
-                                              child: Checkbox(
-                                                value: false,
-                                                onChanged: (value) {},
+                                        (item) => DataRow(
+                                          cells: [
+                                            DataCell(
+                                              SizedBox(
+                                                height: 24.0,
+                                                width: 24.0,
+                                                child: Checkbox(
+                                                  value: false,
+                                                  onChanged: (value) {},
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          DataCell(Text(item.roleName)),
-                                          DataCell(Text(item.description)),
-                                          DataCell(Row(
-                                            children: [
-                                              IconButton(
-                                                onPressed: () => showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      DeleteDialog(
-                                                    onConfirmTap: () {},
+                                            DataCell(Text(item.roleName)),
+                                            DataCell(Text(item.description)),
+                                            DataCell(
+                                              Row(
+                                                children: [
+                                                  IconButton(
+                                                    onPressed: () => showDialog(
+                                                      context: context,
+                                                      builder: (context) => DeleteDialog(
+                                                        id: 0,
+                                                        onConfirmTap: () {},
+                                                      ),
+                                                    ),
+                                                    icon: const Icon(
+                                                      Icons.delete_outline,
+                                                    ),
                                                   ),
-                                                ),
-                                                icon: const Icon(
-                                                    Icons.delete_outline,),
+                                                  IconButton(
+                                                    onPressed: () => showEndDrawer(false, item),
+                                                    icon: const Icon(
+                                                      Icons.edit_outlined,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              IconButton(
-                                                onPressed: () =>
-                                                    showEndDrawer(false, item),
-                                                icon: const Icon(
-                                                    Icons.edit_outlined,),
-                                              ),
-                                            ],
-                                          ),),
-                                        ],),
+                                            ),
+                                          ],
+                                        ),
                                       )
                                       .toList(),
                             ),

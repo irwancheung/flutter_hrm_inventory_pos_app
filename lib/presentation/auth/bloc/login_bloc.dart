@@ -19,10 +19,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         password: event.password,
       );
 
-      result.fold(
-        (l) => emit(_Error(l)),
-        (r) => emit(_Success(r)),
-      );
+      result.fold((l) => emit(_Error(l)), (r) => emit(_Loaded(r)));
     });
   }
 }

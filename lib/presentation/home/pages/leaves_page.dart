@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/add_new_leave.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/delete_dialog.dart';
@@ -98,10 +97,11 @@ class _LeavesPageState extends State<LeavesPage> {
                         hintText: 'Quick search..',
                         onChanged: (value) {
                           searchResult = leaves
-                              .where((element) => element.user
-                                  .toLowerCase()
-                                  .contains(
-                                      searchController.text.toLowerCase(),),)
+                              .where(
+                                (element) => element.user.toLowerCase().contains(
+                                      searchController.text.toLowerCase(),
+                                    ),
+                              )
                               .toList();
                           setState(() {});
                         },
@@ -159,13 +159,15 @@ class _LeavesPageState extends State<LeavesPage> {
                                   ? [
                                       const DataRow(
                                         cells: [
-                                          DataCell(Row(
-                                            children: [
-                                              Icon(Icons.highlight_off),
-                                              SpaceWidth(4.0),
-                                              Text('Data tidak ditemukan..'),
-                                            ],
-                                          ),),
+                                          DataCell(
+                                            Row(
+                                              children: [
+                                                Icon(Icons.highlight_off),
+                                                SpaceWidth(4.0),
+                                                Text('Data tidak ditemukan..'),
+                                              ],
+                                            ),
+                                          ),
                                           DataCell.empty,
                                           DataCell.empty,
                                           DataCell.empty,
@@ -178,72 +180,88 @@ class _LeavesPageState extends State<LeavesPage> {
                                     ]
                                   : searchResult
                                       .map(
-                                        (item) => DataRow(cells: [
-                                          DataCell(
-                                            SizedBox(
-                                              height: 24.0,
-                                              width: 24.0,
-                                              child: Checkbox(
-                                                value: false,
-                                                onChanged: (value) {},
+                                        (item) => DataRow(
+                                          cells: [
+                                            DataCell(
+                                              SizedBox(
+                                                height: 24.0,
+                                                width: 24.0,
+                                                child: Checkbox(
+                                                  value: false,
+                                                  onChanged: (value) {},
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          DataCell(Text(
-                                            item.user,
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColors.black,
-                                            ),
-                                          ),),
-                                          DataCell(Text(item.leaveType)),
-                                          DataCell(Text(item.startDate
-                                              .toFormattedDate(),),),
-                                          DataCell(Text(
-                                              '${item.endDate.toFormattedDate()} ${item.isHalfDay ? '(Half Day)' : ''}',),),
-                                          DataCell(Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0, vertical: 4.0,),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(6.0),
-                                              border: Border.all(
-                                                  color: AppColors.stroke,),
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Badge(
-                                                  backgroundColor:
-                                                      colorStatus(item.status),
+                                            DataCell(
+                                              Text(
+                                                item.user,
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: AppColors.black,
                                                 ),
-                                                const SpaceWidth(8.0),
-                                                Text(labelStatus(item.status)),
-                                              ],
+                                              ),
                                             ),
-                                          ),),
-                                          DataCell(Text(item.reason)),
-                                          DataCell(Row(
-                                            children: [
-                                              IconButton(
-                                                onPressed: () => showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      DeleteDialog(
-                                                    onConfirmTap: () {},
+                                            DataCell(Text(item.leaveType)),
+                                            DataCell(
+                                              Text(
+                                                item.startDate.toFormattedDate(),
+                                              ),
+                                            ),
+                                            DataCell(
+                                              Text(
+                                                '${item.endDate.toFormattedDate()} ${item.isHalfDay ? '(Half Day)' : ''}',
+                                              ),
+                                            ),
+                                            DataCell(
+                                              Container(
+                                                padding: const EdgeInsets.symmetric(
+                                                  horizontal: 8.0,
+                                                  vertical: 4.0,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(6.0),
+                                                  border: Border.all(
+                                                    color: AppColors.stroke,
                                                   ),
                                                 ),
-                                                icon: const Icon(
-                                                    Icons.delete_outline,),
+                                                child: Row(
+                                                  children: [
+                                                    Badge(
+                                                      backgroundColor: colorStatus(item.status),
+                                                    ),
+                                                    const SpaceWidth(8.0),
+                                                    Text(labelStatus(item.status)),
+                                                  ],
+                                                ),
                                               ),
-                                              IconButton(
-                                                onPressed: () =>
-                                                    showEndDrawer(false, item),
-                                                icon: const Icon(
-                                                    Icons.edit_outlined,),
+                                            ),
+                                            DataCell(Text(item.reason)),
+                                            DataCell(
+                                              Row(
+                                                children: [
+                                                  IconButton(
+                                                    onPressed: () => showDialog(
+                                                      context: context,
+                                                      builder: (context) => DeleteDialog(
+                                                        id: 0,
+                                                        onConfirmTap: () {},
+                                                      ),
+                                                    ),
+                                                    icon: const Icon(
+                                                      Icons.delete_outline,
+                                                    ),
+                                                  ),
+                                                  IconButton(
+                                                    onPressed: () => showEndDrawer(false, item),
+                                                    icon: const Icon(
+                                                      Icons.edit_outlined,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),),
-                                        ],),
+                                            ),
+                                          ],
+                                        ),
                                       )
                                       .toList(),
                             ),

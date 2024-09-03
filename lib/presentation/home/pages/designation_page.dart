@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/add_new_designation.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/delete_dialog.dart';
@@ -52,10 +51,11 @@ class _DesignationPageState extends State<DesignationPage> {
                         hintText: 'Quick search..',
                         onChanged: (value) {
                           searchResult = designations
-                              .where((element) => element.designationName
-                                  .toLowerCase()
-                                  .contains(
-                                      searchController.text.toLowerCase(),),)
+                              .where(
+                                (element) => element.designationName.toLowerCase().contains(
+                                      searchController.text.toLowerCase(),
+                                    ),
+                              )
                               .toList();
                           setState(() {});
                         },
@@ -107,7 +107,8 @@ class _DesignationPageState extends State<DesignationPage> {
                                   ),
                                 ),
                                 const DataColumn(
-                                    label: Text('Designation Name'),),
+                                  label: Text('Designation Name'),
+                                ),
                                 const DataColumn(label: Text('Description')),
                                 const DataColumn(label: Text('')),
                               ],
@@ -115,13 +116,15 @@ class _DesignationPageState extends State<DesignationPage> {
                                   ? [
                                       const DataRow(
                                         cells: [
-                                          DataCell(Row(
-                                            children: [
-                                              Icon(Icons.highlight_off),
-                                              SpaceWidth(4.0),
-                                              Text('Data tidak ditemukan..'),
-                                            ],
-                                          ),),
+                                          DataCell(
+                                            Row(
+                                              children: [
+                                                Icon(Icons.highlight_off),
+                                                SpaceWidth(4.0),
+                                                Text('Data tidak ditemukan..'),
+                                              ],
+                                            ),
+                                          ),
                                           DataCell.empty,
                                           DataCell.empty,
                                           DataCell.empty,
@@ -130,54 +133,61 @@ class _DesignationPageState extends State<DesignationPage> {
                                     ]
                                   : searchResult
                                       .map(
-                                        (item) => DataRow(cells: [
-                                          DataCell(
-                                            SizedBox(
-                                              height: 24.0,
-                                              width: 24.0,
-                                              child: Checkbox(
-                                                value: false,
-                                                onChanged: (value) {},
+                                        (item) => DataRow(
+                                          cells: [
+                                            DataCell(
+                                              SizedBox(
+                                                height: 24.0,
+                                                width: 24.0,
+                                                child: Checkbox(
+                                                  value: false,
+                                                  onChanged: (value) {},
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          DataCell(Text(
-                                            item.designationName,
-                                            style: const TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.w500,
-                                              color: AppColors.black,
+                                            DataCell(
+                                              Text(
+                                                item.designationName,
+                                                style: const TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: AppColors.black,
+                                                ),
+                                              ),
                                             ),
-                                          ),),
-                                          DataCell(Text(item.description)),
-                                          DataCell(Row(
-                                            children: [
-                                              IconButton(
-                                                onPressed: () => showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      DeleteDialog(
-                                                    onConfirmTap: () {},
+                                            DataCell(Text(item.description)),
+                                            DataCell(
+                                              Row(
+                                                children: [
+                                                  IconButton(
+                                                    onPressed: () => showDialog(
+                                                      context: context,
+                                                      builder: (context) => DeleteDialog(
+                                                        id: 0,
+                                                        onConfirmTap: () {},
+                                                      ),
+                                                    ),
+                                                    icon: const Icon(
+                                                      Icons.delete_outline,
+                                                    ),
                                                   ),
-                                                ),
-                                                icon: const Icon(
-                                                    Icons.delete_outline,),
-                                              ),
-                                              IconButton(
-                                                onPressed: () => showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      EditDesignation(
-                                                    item: item,
-                                                    onConfirmTap: () {},
+                                                  IconButton(
+                                                    onPressed: () => showDialog(
+                                                      context: context,
+                                                      builder: (context) => EditDesignation(
+                                                        item: item,
+                                                        onConfirmTap: () {},
+                                                      ),
+                                                    ),
+                                                    icon: const Icon(
+                                                      Icons.edit_outlined,
+                                                    ),
                                                   ),
-                                                ),
-                                                icon: const Icon(
-                                                    Icons.edit_outlined,),
+                                                ],
                                               ),
-                                            ],
-                                          ),),
-                                        ],),
+                                            ),
+                                          ],
+                                        ),
                                       )
                                       .toList(),
                             ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/add_new_shift.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/delete_dialog.dart';
@@ -72,10 +71,11 @@ class _ShiftPageState extends State<ShiftPage> {
                         hintText: 'Quick search..',
                         onChanged: (value) {
                           searchResult = shifts
-                              .where((element) => element.name
-                                  .toLowerCase()
-                                  .contains(
-                                      searchController.text.toLowerCase(),),)
+                              .where(
+                                (element) => element.name.toLowerCase().contains(
+                                      searchController.text.toLowerCase(),
+                                    ),
+                              )
                               .toList();
                           setState(() {});
                         },
@@ -126,20 +126,23 @@ class _ShiftPageState extends State<ShiftPage> {
                                 const DataColumn(label: Text('Clock Out Time')),
                                 const DataColumn(label: Text('Self Clocking')),
                                 const DataColumn(
-                                    label: Text('Late Mark After'),),
+                                  label: Text('Late Mark After'),
+                                ),
                                 const DataColumn(label: Text('')),
                               ],
                               rows: searchResult.isEmpty
                                   ? [
                                       const DataRow(
                                         cells: [
-                                          DataCell(Row(
-                                            children: [
-                                              Icon(Icons.highlight_off),
-                                              SpaceWidth(4.0),
-                                              Text('Data tidak ditemukan..'),
-                                            ],
-                                          ),),
+                                          DataCell(
+                                            Row(
+                                              children: [
+                                                Icon(Icons.highlight_off),
+                                                SpaceWidth(4.0),
+                                                Text('Data tidak ditemukan..'),
+                                              ],
+                                            ),
+                                          ),
                                           DataCell.empty,
                                           DataCell.empty,
                                           DataCell.empty,
@@ -151,75 +154,93 @@ class _ShiftPageState extends State<ShiftPage> {
                                     ]
                                   : searchResult
                                       .map(
-                                        (item) => DataRow(cells: [
-                                          DataCell(
-                                            SizedBox(
-                                              height: 24.0,
-                                              width: 24.0,
-                                              child: Checkbox(
-                                                value: false,
-                                                onChanged: (value) {},
+                                        (item) => DataRow(
+                                          cells: [
+                                            DataCell(
+                                              SizedBox(
+                                                height: 24.0,
+                                                width: 24.0,
+                                                child: Checkbox(
+                                                  value: false,
+                                                  onChanged: (value) {},
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          DataCell(Text(
-                                            item.name,
-                                            style: const TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColors.black,
-                                            ),
-                                          ),),
-                                          DataCell(Text(item.clockInTime
-                                              .toFormattedTime(),),),
-                                          DataCell(Text(item.clockOutTime
-                                              .toFormattedTime(),),),
-                                          DataCell(Text(
-                                              '${item.lateMarkAfter} Minutes',),),
-                                          DataCell(Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0, vertical: 4.0,),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(6.0),
-                                              border: Border.all(
-                                                  color: AppColors.stroke,),
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Badge(
-                                                  backgroundColor:
-                                                      item.isSelfClocking
-                                                          ? AppColors.green
-                                                          : AppColors.red,
+                                            DataCell(
+                                              Text(
+                                                item.name,
+                                                style: const TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: AppColors.black,
                                                 ),
-                                                const SpaceWidth(8.0),
-                                                Text(item.selfClocking),
-                                              ],
+                                              ),
                                             ),
-                                          ),),
-                                          DataCell(Row(
-                                            children: [
-                                              IconButton(
-                                                onPressed: () => showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      DeleteDialog(
-                                                    onConfirmTap: () {},
+                                            DataCell(
+                                              Text(
+                                                item.clockInTime.toFormattedTime(),
+                                              ),
+                                            ),
+                                            DataCell(
+                                              Text(
+                                                item.clockOutTime.toFormattedTime(),
+                                              ),
+                                            ),
+                                            DataCell(
+                                              Text(
+                                                '${item.lateMarkAfter} Minutes',
+                                              ),
+                                            ),
+                                            DataCell(
+                                              Container(
+                                                padding: const EdgeInsets.symmetric(
+                                                  horizontal: 8.0,
+                                                  vertical: 4.0,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(6.0),
+                                                  border: Border.all(
+                                                    color: AppColors.stroke,
                                                   ),
                                                 ),
-                                                icon: const Icon(
-                                                    Icons.delete_outline,),
+                                                child: Row(
+                                                  children: [
+                                                    Badge(
+                                                      backgroundColor:
+                                                          item.isSelfClocking ? AppColors.green : AppColors.red,
+                                                    ),
+                                                    const SpaceWidth(8.0),
+                                                    Text(item.selfClocking),
+                                                  ],
+                                                ),
                                               ),
-                                              IconButton(
-                                                onPressed: () =>
-                                                    showEndDrawer(false, item),
-                                                icon: const Icon(
-                                                    Icons.edit_outlined,),
+                                            ),
+                                            DataCell(
+                                              Row(
+                                                children: [
+                                                  IconButton(
+                                                    onPressed: () => showDialog(
+                                                      context: context,
+                                                      builder: (context) => DeleteDialog(
+                                                        id: 0,
+                                                        onConfirmTap: () {},
+                                                      ),
+                                                    ),
+                                                    icon: const Icon(
+                                                      Icons.delete_outline,
+                                                    ),
+                                                  ),
+                                                  IconButton(
+                                                    onPressed: () => showEndDrawer(false, item),
+                                                    icon: const Icon(
+                                                      Icons.edit_outlined,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),),
-                                        ],),
+                                            ),
+                                          ],
+                                        ),
                                       )
                                       .toList(),
                             ),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/create_department_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/get_departments_bloc.dart';
 
 class AddNewDepartement extends StatefulWidget {
-  final VoidCallback onConfirmTap;
-  const AddNewDepartement({super.key, required this.onConfirmTap});
+  const AddNewDepartement({super.key});
 
   @override
   State<AddNewDepartement> createState() => _AddNewDepartementState();
@@ -64,15 +66,46 @@ class _AddNewDepartementState extends State<AddNewDepartement> {
                 Row(
                   children: [
                     Flexible(
-                        child: Button.outlined(
-                      onPressed: () => context.pop(),
-                      label: 'Cancel',
-                    ),),
+                      child: Button.outlined(
+                        onPressed: () => context.pop(),
+                        label: 'Cancel',
+                      ),
+                    ),
                     const SpaceWidth(16.0),
                     Flexible(
-                      child: Button.filled(
-                        onPressed: widget.onConfirmTap,
-                        label: 'Create',
+                      child: BlocConsumer<CreateDepartmentBloc, CreateDepartmentState>(
+                        listener: (context, state) {
+                          state.maybeWhen(
+                            orElse: () {},
+                            loaded: () {
+                              context.read<GetDepartmentsBloc>().add(const GetDepartmentsEvent.getDepartments());
+                              context.pop();
+                            },
+                            error: (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(e), backgroundColor: Colors.red),
+                              );
+                            },
+                          );
+                        },
+                        builder: (context, state) {
+                          return state.maybeWhen(
+                            orElse: () {
+                              return Button.filled(
+                                onPressed: () {
+                                  context.read<CreateDepartmentBloc>().add(
+                                        CreateDepartmentEvent.createDepartment(
+                                          name: departementNameController.text,
+                                          description: descriptionController.text,
+                                        ),
+                                      );
+                                },
+                                label: 'Create',
+                              );
+                            },
+                            loading: () => const Center(child: CircularProgressIndicator()),
+                          );
+                        },
                       ),
                     ),
                   ],
