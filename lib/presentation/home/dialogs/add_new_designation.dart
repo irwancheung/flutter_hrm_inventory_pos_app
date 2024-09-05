@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/designation/create_designation_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/designation/get_designations_bloc.dart';
 
 class AddNewDesignation extends StatefulWidget {
   final VoidCallback onConfirmTap;
@@ -65,15 +67,46 @@ class _AddNewDesignationState extends State<AddNewDesignation> {
                 Row(
                   children: [
                     Flexible(
-                        child: Button.outlined(
-                      onPressed: () => context.pop(),
-                      label: 'Cancel',
-                    ),),
+                      child: Button.outlined(
+                        onPressed: () => context.pop(),
+                        label: 'Cancel',
+                      ),
+                    ),
                     const SpaceWidth(16.0),
                     Flexible(
-                      child: Button.filled(
-                        onPressed: widget.onConfirmTap,
-                        label: 'Create',
+                      child: BlocConsumer<CreateDesignationBloc, CreateDesignationState>(
+                        listener: (context, state) {
+                          state.maybeWhen(
+                            loaded: () {
+                              context.read<GetDesignationsBloc>().add(const GetDesignationsEvent.getDesignations());
+                              context.pop();
+                            },
+                            error: (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(e), backgroundColor: Colors.red),
+                              );
+                            },
+                            orElse: () {},
+                          );
+                        },
+                        builder: (context, state) {
+                          return state.maybeWhen(
+                            loading: () => const Center(child: CircularProgressIndicator()),
+                            orElse: () {
+                              return Button.filled(
+                                onPressed: () {
+                                  context.read<CreateDesignationBloc>().add(
+                                        CreateDesignationEvent.createDesignation(
+                                          name: designationNameController.text,
+                                          description: descriptionController.text,
+                                        ),
+                                      );
+                                },
+                                label: 'Create',
+                              );
+                            },
+                          );
+                        },
                       ),
                     ),
                   ],

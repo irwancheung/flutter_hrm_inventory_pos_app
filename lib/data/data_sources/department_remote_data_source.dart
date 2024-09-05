@@ -8,10 +8,12 @@ import 'package:flutter_hrm_inventory_pos_app/data/models/response/department_re
 import 'package:http/http.dart' as http;
 
 class DepartmentRemoteDataSource {
+  static const _path = '/api/departments';
+
   Future<Either<String, DepartmentResponseModel>> getDepartments() async {
     final authData = await AuthLocalDataSource().getAuthData();
 
-    final url = Uri.parse('${Variables.baseUrl}/api/departments');
+    final url = Uri.parse('${Variables.baseUrl}$_path');
     final headers = setHeaders({
       'Authorization': 'Bearer ${authData.token}',
     });
@@ -34,7 +36,7 @@ class DepartmentRemoteDataSource {
   }) async {
     final authData = await AuthLocalDataSource().getAuthData();
 
-    final url = Uri.parse('${Variables.baseUrl}/api/departments');
+    final url = Uri.parse('${Variables.baseUrl}$_path');
     final headers = setHeaders({
       'Authorization': 'Bearer ${authData.token}',
     });
@@ -62,7 +64,7 @@ class DepartmentRemoteDataSource {
   }) async {
     final authData = await AuthLocalDataSource().getAuthData();
 
-    final url = Uri.parse('${Variables.baseUrl}/api/departments/$id');
+    final url = Uri.parse('${Variables.baseUrl}$_path/$id');
     final headers = setHeaders({
       'Authorization': 'Bearer ${authData.token}',
     });
@@ -86,12 +88,10 @@ class DepartmentRemoteDataSource {
   Future<Either<String, String>> deleteDepartment(int id) async {
     final authData = await AuthLocalDataSource().getAuthData();
 
-    final url = Uri.parse('${Variables.baseUrl}/api/departments/$id');
+    final url = Uri.parse('${Variables.baseUrl}$_path/$id');
     final headers = setHeaders({
       'Authorization': 'Bearer ${authData.token}',
     });
-
-    print(url);
 
     final response = await http.delete(
       url,

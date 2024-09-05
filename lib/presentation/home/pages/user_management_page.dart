@@ -167,7 +167,6 @@ class _UserManagementPageState extends State<UserManagementPage> {
                                                     onPressed: () => showDialog(
                                                       context: context,
                                                       builder: (context) => DeleteDialog(
-                                                        id: 0,
                                                         onConfirmTap: () {},
                                                       ),
                                                     ),

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/models/designation_model.dart';
+import 'package:flutter_hrm_inventory_pos_app/data/models/response/designation_response_model.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/designation/get_designations_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/designation/update_designation_bloc.dart';
 
 class EditDesignation extends StatefulWidget {
-  final DesignationModel item;
+  final Designation item;
   final VoidCallback onConfirmTap;
   const EditDesignation({
     super.key,
@@ -22,11 +24,9 @@ class _EditDesignationState extends State<EditDesignation> {
 
   @override
   void initState() {
-    designationNameController =
-        TextEditingController(text: widget.item.designationName);
-    descriptionController =
-        TextEditingController(text: widget.item.description);
     super.initState();
+    designationNameController = TextEditingController(text: widget.item.name);
+    descriptionController = TextEditingController(text: widget.item.description);
   }
 
   @override
@@ -73,15 +73,46 @@ class _EditDesignationState extends State<EditDesignation> {
                 Row(
                   children: [
                     Flexible(
-                        child: Button.outlined(
-                      onPressed: () => context.pop(),
-                      label: 'Cancel',
-                    ),),
+                      child: Button.outlined(
+                        onPressed: () => context.pop(),
+                        label: 'Cancel',
+                      ),
+                    ),
                     const SpaceWidth(16.0),
                     Flexible(
-                      child: Button.filled(
-                        onPressed: widget.onConfirmTap,
-                        label: 'Update',
+                      child: BlocConsumer<UpdateDesignationBloc, UpdateDesignationState>(
+                        listener: (context, state) {
+                          state.maybeWhen(
+                            loaded: () {
+                              context.read<GetDesignationsBloc>().add(const GetDesignationsEvent.getDesignations());
+                              context.pop();
+                            },
+                            error: (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(e), backgroundColor: Colors.red),
+                              );
+                            },
+                            orElse: () {},
+                          );
+                        },
+                        builder: (context, state) {
+                          return state.maybeWhen(
+                            orElse: () {
+                              return Button.filled(
+                                onPressed: () {
+                                  context.read<UpdateDesignationBloc>().add(
+                                        UpdateDesignationEvent.updateDesignation(
+                                          id: widget.item.id!,
+                                          name: designationNameController.text,
+                                          description: descriptionController.text,
+                                        ),
+                                      );
+                                },
+                                label: 'Update',
+                              );
+                            },
+                          );
+                        },
                       ),
                     ),
                   ],

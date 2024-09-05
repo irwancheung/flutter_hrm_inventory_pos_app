@@ -40,9 +40,14 @@ extension DateTimeExt on DateTime {
 }
 
 extension TimeOfDayExt on TimeOfDay {
-  String toFormattedTime() {
+  String toFormattedTime({bool includeWIB = true}) {
     final String hour = this.hour.toString().padLeft(2, '0');
     final String minute = this.minute.toString().padLeft(2, '0');
-    return '$hour:$minute WIB';
+
+    if (includeWIB) {
+      return '$hour:$minute WIB';
+    }
+
+    return '$hour:$minute';
   }
 }

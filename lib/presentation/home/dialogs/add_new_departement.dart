@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/create_department_bloc.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/get_departments_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/department/create_department_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/department/get_departments_bloc.dart';
 
 class AddNewDepartement extends StatefulWidget {
   const AddNewDepartement({super.key});
@@ -76,7 +76,6 @@ class _AddNewDepartementState extends State<AddNewDepartement> {
                       child: BlocConsumer<CreateDepartmentBloc, CreateDepartmentState>(
                         listener: (context, state) {
                           state.maybeWhen(
-                            orElse: () {},
                             loaded: () {
                               context.read<GetDepartmentsBloc>().add(const GetDepartmentsEvent.getDepartments());
                               context.pop();
@@ -86,6 +85,7 @@ class _AddNewDepartementState extends State<AddNewDepartement> {
                                 SnackBar(content: Text(e), backgroundColor: Colors.red),
                               );
                             },
+                            orElse: () {},
                           );
                         },
                         builder: (context, state) {

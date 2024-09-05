@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/shift/create_shift_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/shift/get_shifts_bloc.dart';
 
 class AddNewShift extends StatefulWidget {
   const AddNewShift({super.key});
@@ -15,6 +17,8 @@ class _AddNewShiftState extends State<AddNewShift> {
   DateTime? clockInTime;
   DateTime? clockOutTime;
   late bool isSelfClocking;
+  String? selectedClockInTime;
+  String? selectedClockOutTime;
 
   @override
   void initState() {
@@ -74,11 +78,12 @@ class _AddNewShiftState extends State<AddNewShift> {
                 const SpaceWidth(16.0),
                 Flexible(
                   child: CustomTimePicker(
-                    initialTime: clockInTime != null
-                        ? TimeOfDay.fromDateTime(clockInTime!)
-                        : null,
+                    initialTime: clockInTime != null ? TimeOfDay.fromDateTime(clockInTime!) : null,
                     label: 'Clock In Time',
                     hintText: 'Select time',
+                    onTimeSelected: (selectedTime) {
+                      selectedClockInTime = selectedTime.toFormattedTime(includeWIB: false);
+                    },
                   ),
                 ),
               ],
@@ -88,11 +93,12 @@ class _AddNewShiftState extends State<AddNewShift> {
               children: [
                 Flexible(
                   child: CustomTimePicker(
-                    initialTime: clockOutTime != null
-                        ? TimeOfDay.fromDateTime(clockOutTime!)
-                        : null,
+                    initialTime: clockOutTime != null ? TimeOfDay.fromDateTime(clockOutTime!) : null,
                     label: 'Clock Out Time',
                     hintText: 'Select time',
+                    onTimeSelected: (selectedTime) {
+                      selectedClockOutTime = selectedTime.toFormattedTime(includeWIB: false);
+                    },
                   ),
                 ),
                 const SpaceWidth(16.0),
@@ -140,9 +146,40 @@ class _AddNewShiftState extends State<AddNewShift> {
                   ),
                   const SpaceWidth(16.0),
                   Flexible(
-                    child: Button.filled(
-                      onPressed: () {},
-                      label: 'Create',
+                    child: BlocConsumer<CreateShiftBloc, CreateShiftState>(
+                      listener: (context, state) {
+                        state.maybeWhen(
+                          loaded: () {
+                            context.read<GetShiftsBloc>().add(const GetShiftsEvent.getShifts());
+                            context.pop();
+                          },
+                          error: (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(e), backgroundColor: Colors.red),
+                            );
+                          },
+                          orElse: () {},
+                        );
+                      },
+                      builder: (context, state) {
+                        return state.maybeWhen(
+                          loading: () => const Center(child: CircularProgressIndicator()),
+                          orElse: () {
+                            return Button.filled(
+                              onPressed: () {
+                                context.read<CreateShiftBloc>().add(
+                                      CreateShiftEvent.createShift(
+                                        name: nameController.text,
+                                        clockInTime: selectedClockInTime!,
+                                        clockOutTime: selectedClockOutTime!,
+                                      ),
+                                    );
+                              },
+                              label: 'Create',
+                            );
+                          },
+                        );
+                      },
                     ),
                   ),
                   const Spacer(),

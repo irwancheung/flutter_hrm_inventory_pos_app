@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
 import 'package:flutter_hrm_inventory_pos_app/data/models/response/department_response_model.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/get_departments_bloc.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/update_department_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/department/get_departments_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/department/update_department_bloc.dart';
 
 class EditDepartement extends StatefulWidget {
   final Department item;
@@ -78,7 +78,6 @@ class _EditDepartementState extends State<EditDepartement> {
                       child: BlocConsumer<UpdateDepartmentBloc, UpdateDepartmentState>(
                         listener: (context, state) {
                           state.maybeWhen(
-                            orElse: () {},
                             loaded: () {
                               context.read<GetDepartmentsBloc>().add(const GetDepartmentsEvent.getDepartments());
                               context.pop();
@@ -88,10 +87,12 @@ class _EditDepartementState extends State<EditDepartement> {
                                 SnackBar(content: Text(e), backgroundColor: Colors.red),
                               );
                             },
+                            orElse: () {},
                           );
                         },
                         builder: (context, state) {
                           return state.maybeWhen(
+                            loading: () => const Center(child: CircularProgressIndicator()),
                             orElse: () {
                               return Button.filled(
                                 onPressed: () {
@@ -106,7 +107,6 @@ class _EditDepartementState extends State<EditDepartement> {
                                 label: 'Update',
                               );
                             },
-                            loading: () => const Center(child: CircularProgressIndicator()),
                           );
                         },
                       ),

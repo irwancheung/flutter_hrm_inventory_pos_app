@@ -165,7 +165,6 @@ class _HolidayPageState extends State<HolidayPage> {
                                                     onPressed: () => showDialog(
                                                       context: context,
                                                       builder: (context) => DeleteDialog(
-                                                        id: 0,
                                                         onConfirmTap: () {},
                                                       ),
                                                     ),

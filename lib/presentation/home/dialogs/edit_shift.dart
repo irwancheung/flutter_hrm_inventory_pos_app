@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/models/shift_model.dart';
+import 'package:flutter_hrm_inventory_pos_app/data/models/response/shift_response_model.dart';
 
 class EditShift extends StatefulWidget {
-  final ShiftModel item;
+  final Shift item;
   const EditShift({super.key, required this.item});
 
   @override
@@ -21,11 +20,10 @@ class _EditShiftState extends State<EditShift> {
   @override
   void initState() {
     nameController = TextEditingController(text: widget.item.name);
-    lateMarkAfterController =
-        TextEditingController(text: '${widget.item.lateMarkAfter}');
-    clockInTime = widget.item.clockInTime;
-    clockOutTime = widget.item.clockOutTime;
-    isSelfClocking = widget.item.isSelfClocking;
+    lateMarkAfterController = TextEditingController(text: '${widget.item.lateMarkAfter}');
+    // clockInTime = widget.item.clockInTime;
+    // clockOutTime = widget.item.clockOutTime;
+    // isSelfClocking = widget.item.isSelfClocking;
     super.initState();
   }
 

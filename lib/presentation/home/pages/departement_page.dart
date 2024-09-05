@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
 import 'package:flutter_hrm_inventory_pos_app/data/models/response/department_response_model.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/get_departments_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/department/delete_department_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/department/get_departments_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/add_new_departement.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/delete_dialog.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/edit_departement.dart';
@@ -162,15 +163,40 @@ class _DepartementPageState extends State<DepartementPage> {
                                                   DataCell(
                                                     Row(
                                                       children: [
-                                                        IconButton(
-                                                          onPressed: () => showDialog(
-                                                            context: context,
-                                                            builder: (context) => DeleteDialog(
-                                                              id: item.id!,
-                                                              onConfirmTap: () {},
-                                                            ),
-                                                          ),
-                                                          icon: const Icon(Icons.delete_outline),
+                                                        BlocConsumer<DeleteDepartmentBloc, DeleteDepartmentState>(
+                                                          listener: (context, state) {
+                                                            state.maybeWhen(
+                                                              loaded: () {
+                                                                context
+                                                                    .read<GetDepartmentsBloc>()
+                                                                    .add(const GetDepartmentsEvent.getDepartments());
+                                                              },
+                                                              error: (e) {
+                                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                                  SnackBar(
+                                                                      content: Text(e), backgroundColor: Colors.red),
+                                                                );
+                                                              },
+                                                              orElse: () {},
+                                                            );
+                                                          },
+                                                          builder: (context, state) {
+                                                            return IconButton(
+                                                              onPressed: () => showDialog(
+                                                                context: context,
+                                                                builder: (context) => DeleteDialog(
+                                                                  onConfirmTap: () {
+                                                                    context.read<DeleteDepartmentBloc>().add(
+                                                                          DeleteDepartmentEvent.deleteDepartment(
+                                                                              item.id!),
+                                                                        );
+                                                                    context.pop();
+                                                                  },
+                                                                ),
+                                                              ),
+                                                              icon: const Icon(Icons.delete_outline),
+                                                            );
+                                                          },
                                                         ),
                                                         IconButton(
                                                           onPressed: () => showDialog(

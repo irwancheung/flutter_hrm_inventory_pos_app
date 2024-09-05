@@ -239,7 +239,6 @@ class _StaffMemberPageState extends State<StaffMemberPage> {
                                                     onPressed: () => showDialog(
                                                       context: context,
                                                       builder: (context) => DeleteDialog(
-                                                        id: 0,
                                                         onConfirmTap: () {},
                                                       ),
                                                     ),

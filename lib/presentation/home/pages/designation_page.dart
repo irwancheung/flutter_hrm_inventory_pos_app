@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/designation/delete_designation_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/designation/get_designations_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/add_new_designation.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/delete_dialog.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/edit_designation.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/models/designation_model.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/widgets/app_bar_widget.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/widgets/pagination_widget.dart';
 
 class DesignationPage extends StatefulWidget {
   const DesignationPage({super.key});
@@ -18,12 +19,11 @@ class _DesignationPageState extends State<DesignationPage> {
   bool isEmptyData = false;
 
   final searchController = TextEditingController();
-  late List<DesignationModel> searchResult;
 
   @override
   void initState() {
-    searchResult = designations;
     super.initState();
+    context.read<GetDesignationsBloc>().add(const GetDesignationsEvent.getDesignations());
   }
 
   @override
@@ -49,16 +49,7 @@ class _DesignationPageState extends State<DesignationPage> {
                       child: SearchInput(
                         controller: searchController,
                         hintText: 'Quick search..',
-                        onChanged: (value) {
-                          searchResult = designations
-                              .where(
-                                (element) => element.designationName.toLowerCase().contains(
-                                      searchController.text.toLowerCase(),
-                                    ),
-                              )
-                              .toList();
-                          setState(() {});
-                        },
+                        onChanged: (value) {},
                       ),
                     ),
                     const SpaceWidth(16.0),
@@ -76,133 +67,162 @@ class _DesignationPageState extends State<DesignationPage> {
                   ],
                 ),
               ),
-              if (isEmptyData) ...[
-                const Padding(
-                  padding: EdgeInsets.all(70.0),
-                  child: Center(
-                    child: EmptyPlaceholder2(),
-                  ),
-                ),
-              ] else ...[
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: DataTable(
-                              dataRowMinHeight: 30.0,
-                              dataRowMaxHeight: 60.0,
-                              columns: [
-                                DataColumn(
-                                  label: SizedBox(
-                                    height: 24.0,
-                                    width: 24.0,
-                                    child: Checkbox(
-                                      value: false,
-                                      onChanged: (value) {},
-                                    ),
-                                  ),
-                                ),
-                                const DataColumn(
-                                  label: Text('Designation Name'),
-                                ),
-                                const DataColumn(label: Text('Description')),
-                                const DataColumn(label: Text('')),
-                              ],
-                              rows: searchResult.isEmpty
-                                  ? [
-                                      const DataRow(
-                                        cells: [
-                                          DataCell(
-                                            Row(
-                                              children: [
-                                                Icon(Icons.highlight_off),
-                                                SpaceWidth(4.0),
-                                                Text('Data tidak ditemukan..'),
+              BlocBuilder<GetDesignationsBloc, GetDesignationsState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    loading: () {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                    loaded: (designations) {
+                      return Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: DataTable(
+                                    dataRowMinHeight: 30.0,
+                                    dataRowMaxHeight: 60.0,
+                                    columns: [
+                                      DataColumn(
+                                        label: SizedBox(
+                                          height: 24.0,
+                                          width: 24.0,
+                                          child: Checkbox(
+                                            value: false,
+                                            onChanged: (value) {},
+                                          ),
+                                        ),
+                                      ),
+                                      const DataColumn(
+                                        label: Text('Designation Name'),
+                                      ),
+                                      const DataColumn(label: Text('Description')),
+                                      const DataColumn(label: Text('')),
+                                    ],
+                                    rows: designations.isEmpty
+                                        ? [
+                                            const DataRow(
+                                              cells: [
+                                                DataCell(
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons.highlight_off),
+                                                      SpaceWidth(4.0),
+                                                      Text('Data tidak ditemukan..'),
+                                                    ],
+                                                  ),
+                                                ),
+                                                DataCell.empty,
+                                                DataCell.empty,
+                                                DataCell.empty,
                                               ],
                                             ),
-                                          ),
-                                          DataCell.empty,
-                                          DataCell.empty,
-                                          DataCell.empty,
-                                        ],
-                                      ),
-                                    ]
-                                  : searchResult
-                                      .map(
-                                        (item) => DataRow(
-                                          cells: [
-                                            DataCell(
-                                              SizedBox(
-                                                height: 24.0,
-                                                width: 24.0,
-                                                child: Checkbox(
-                                                  value: false,
-                                                  onChanged: (value) {},
-                                                ),
-                                              ),
-                                            ),
-                                            DataCell(
-                                              Text(
-                                                item.designationName,
-                                                style: const TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: AppColors.black,
-                                                ),
-                                              ),
-                                            ),
-                                            DataCell(Text(item.description)),
-                                            DataCell(
-                                              Row(
-                                                children: [
-                                                  IconButton(
-                                                    onPressed: () => showDialog(
-                                                      context: context,
-                                                      builder: (context) => DeleteDialog(
-                                                        id: 0,
-                                                        onConfirmTap: () {},
+                                          ]
+                                        : designations
+                                            .map(
+                                              (item) => DataRow(
+                                                cells: [
+                                                  DataCell(
+                                                    SizedBox(
+                                                      height: 24.0,
+                                                      width: 24.0,
+                                                      child: Checkbox(
+                                                        value: false,
+                                                        onChanged: (value) {},
                                                       ),
-                                                    ),
-                                                    icon: const Icon(
-                                                      Icons.delete_outline,
                                                     ),
                                                   ),
-                                                  IconButton(
-                                                    onPressed: () => showDialog(
-                                                      context: context,
-                                                      builder: (context) => EditDesignation(
-                                                        item: item,
-                                                        onConfirmTap: () {},
+                                                  DataCell(
+                                                    Text(
+                                                      item.name!,
+                                                      style: const TextStyle(
+                                                        fontSize: 16.0,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: AppColors.black,
                                                       ),
                                                     ),
-                                                    icon: const Icon(
-                                                      Icons.edit_outlined,
+                                                  ),
+                                                  DataCell(Text(item.description!)),
+                                                  DataCell(
+                                                    Row(
+                                                      children: [
+                                                        BlocConsumer<DeleteDesignationBloc, DeleteDesignationState>(
+                                                          listener: (context, state) {
+                                                            state.maybeWhen(
+                                                              loaded: () {
+                                                                context
+                                                                    .read<GetDesignationsBloc>()
+                                                                    .add(const GetDesignationsEvent.getDesignations());
+                                                              },
+                                                              error: (e) {
+                                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                                  SnackBar(
+                                                                      content: Text(e), backgroundColor: Colors.red),
+                                                                );
+                                                              },
+                                                              orElse: () {},
+                                                            );
+                                                          },
+                                                          builder: (context, state) {
+                                                            return IconButton(
+                                                              onPressed: () => showDialog(
+                                                                context: context,
+                                                                builder: (context) => DeleteDialog(
+                                                                  onConfirmTap: () {
+                                                                    context.read<DeleteDesignationBloc>().add(
+                                                                        DeleteDesignationEvent.deleteDesignation(
+                                                                            item.id!));
+                                                                    context.pop();
+                                                                  },
+                                                                ),
+                                                              ),
+                                                              icon: const Icon(
+                                                                Icons.delete_outline,
+                                                              ),
+                                                            );
+                                                          },
+                                                        ),
+                                                        IconButton(
+                                                          onPressed: () => showDialog(
+                                                            context: context,
+                                                            builder: (context) => EditDesignation(
+                                                              item: item,
+                                                              onConfirmTap: () {},
+                                                            ),
+                                                          ),
+                                                          icon: const Icon(
+                                                            Icons.edit_outlined,
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
                                                 ],
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                      .toList(),
-                            ),
+                                            )
+                                            .toList(),
+                                  ),
+                                ),
+                              ),
+                              // if (searchResult.isNotEmpty)
+                              //   const Padding(
+                              //     padding: EdgeInsets.all(16.0),
+                              //     child: PaginationWidget(),
+                              //   ),
+                            ],
                           ),
                         ),
-                        if (searchResult.isNotEmpty)
-                          const Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: PaginationWidget(),
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+                      );
+                    },
+                    orElse: () => const SizedBox(),
+                  );
+                },
+              ),
             ],
           ),
         ),
