@@ -1,7 +1,15 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
+import 'package:flutter_hrm_inventory_pos_app/data/models/request/staff_request_model.dart';
+import 'package:flutter_hrm_inventory_pos_app/data/models/response/department_response_model.dart';
+import 'package:flutter_hrm_inventory_pos_app/data/models/response/designation_response_model.dart';
+import 'package:flutter_hrm_inventory_pos_app/data/models/response/role_response_model.dart';
+import 'package:flutter_hrm_inventory_pos_app/data/models/response/shift_response_model.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddNewStaffMember extends StatefulWidget {
   const AddNewStaffMember({super.key});
@@ -12,51 +20,43 @@ class AddNewStaffMember extends StatefulWidget {
 
 class _AddNewStaffMemberState extends State<AddNewStaffMember> {
   final statuses = ['Enable', 'Disable'];
-  final shifts = ['Pagi', 'Siang', 'Malam'];
 
-  late final TextEditingController warehouseController;
-  late final TextEditingController roleController;
   late final TextEditingController nameController;
-  late final TextEditingController usernameController;
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
   late final TextEditingController phoneNumberController;
   late final TextEditingController statusController;
-  late final TextEditingController departmentController;
-  late final TextEditingController designationController;
-  late final TextEditingController shiftController;
   late final TextEditingController addressController;
+
+  XFile? image;
+  int? roleId;
+  int? shiftId;
+  int? departmentId;
+  int? designationId;
 
   @override
   void initState() {
-    warehouseController = TextEditingController();
-    roleController = TextEditingController();
+    super.initState();
     nameController = TextEditingController();
-    usernameController = TextEditingController();
     emailController = TextEditingController();
     passwordController = TextEditingController();
     phoneNumberController = TextEditingController();
     statusController = TextEditingController();
-    departmentController = TextEditingController();
-    designationController = TextEditingController();
-    shiftController = TextEditingController();
     addressController = TextEditingController();
-    super.initState();
+
+    context.read<GetRolesBloc>().add(const GetRolesEvent.getRoles());
+    context.read<GetShiftsBloc>().add(const GetShiftsEvent.getShifts());
+    context.read<GetDepartmentsBloc>().add(const GetDepartmentsEvent.getDepartments());
+    context.read<GetDesignationsBloc>().add(const GetDesignationsEvent.getDesignations());
   }
 
   @override
   void dispose() {
-    warehouseController.dispose();
-    roleController.dispose();
     nameController.dispose();
-    usernameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     phoneNumberController.dispose();
     statusController.dispose();
-    departmentController.dispose();
-    designationController.dispose();
-    shiftController.dispose();
     addressController.dispose();
     super.dispose();
   }
@@ -108,43 +108,33 @@ class _AddNewStaffMemberState extends State<AddNewStaffMember> {
                     Text('Upload profile picture'),
                   ],
                 ),
-                const SpaceWidth(75.0),
-                ClipOval(
-                  child: CachedNetworkImage(
-                    imageUrl: 'https://assets.ggwp.id/2023/06/R-1-640x360.jpg',
-                    height: 64.0,
-                    width: 64.0,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
-                ),
                 const Spacer(),
                 InkWell(
-                  onTap: () {},
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Delete',
-                      style: TextStyle(
-                        color: AppColors.red,
-                      ),
-                    ),
-                  ),
-                ),
-                const SpaceWidth(8.0),
-                InkWell(
-                  onTap: () {},
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Update',
-                      style: TextStyle(
-                        color: AppColors.primary,
-                      ),
-                    ),
-                  ),
+                  onTap: () {
+                    ImagePicker().pickImage(source: ImageSource.gallery).then((value) {
+                      if (value != null) {
+                        image = value;
+                        setState(() {});
+                      }
+                    });
+                  },
+                  child: image != null
+                      ? ClipOval(
+                          child: Image.file(
+                          File(image!.path),
+                          height: 64.0,
+                          width: 64.0,
+                          fit: BoxFit.cover,
+                        ))
+                      : const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Upload Image',
+                            style: TextStyle(
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ),
                 ),
               ],
             ),
@@ -153,20 +143,25 @@ class _AddNewStaffMemberState extends State<AddNewStaffMember> {
             Row(
               children: [
                 Flexible(
-                  child: CustomTextField(
-                    controller: warehouseController,
-                    label: 'Warehouse',
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.text,
-                  ),
-                ),
-                const SpaceWidth(16.0),
-                Flexible(
-                  child: CustomTextField(
-                    controller: roleController,
-                    label: 'Role',
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.text,
+                  child: BlocBuilder<GetRolesBloc, GetRolesState>(
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        loaded: (roles) {
+                          return CustomDropdown<Role>(
+                            value: roles.first,
+                            items: roles,
+                            label: 'Role',
+                            onChanged: (value) {
+                              roleId = value?.id;
+                              setState(() {});
+                            },
+                          );
+                        },
+                        orElse: () {
+                          return const Center(child: CircularProgressIndicator());
+                        },
+                      );
+                    },
                   ),
                 ),
               ],
@@ -174,13 +169,6 @@ class _AddNewStaffMemberState extends State<AddNewStaffMember> {
             const SpaceHeight(16.0),
             CustomTextField(
               controller: nameController,
-              label: 'Name',
-              textInputAction: TextInputAction.next,
-              keyboardType: TextInputType.text,
-            ),
-            const SpaceHeight(16.0),
-            CustomTextField(
-              controller: usernameController,
               label: 'User Name',
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.text,
@@ -228,20 +216,48 @@ class _AddNewStaffMemberState extends State<AddNewStaffMember> {
             Row(
               children: [
                 Flexible(
-                  child: CustomTextField(
-                    controller: departmentController,
-                    label: 'Department',
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.text,
+                  child: BlocBuilder<GetDepartmentsBloc, GetDepartmentsState>(
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        loaded: (departments) {
+                          return CustomDropdown<Department>(
+                            value: departments.first,
+                            items: departments,
+                            label: 'Department',
+                            onChanged: (value) {
+                              departmentId = value?.id;
+                              setState(() {});
+                            },
+                          );
+                        },
+                        orElse: () {
+                          return const Center(child: CircularProgressIndicator());
+                        },
+                      );
+                    },
                   ),
                 ),
                 const SpaceWidth(16.0),
                 Flexible(
-                  child: CustomTextField(
-                    controller: designationController,
-                    label: 'Designation',
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.text,
+                  child: BlocBuilder<GetDesignationsBloc, GetDesignationsState>(
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        loaded: (designations) {
+                          return CustomDropdown<Designation>(
+                            value: designations.first,
+                            items: designations,
+                            label: 'Designation',
+                            onChanged: (value) {
+                              designationId = value?.id;
+                              setState(() {});
+                            },
+                          );
+                        },
+                        orElse: () {
+                          return const Center(child: CircularProgressIndicator());
+                        },
+                      );
+                    },
                   ),
                 ),
               ],
@@ -250,13 +266,24 @@ class _AddNewStaffMemberState extends State<AddNewStaffMember> {
             Row(
               children: [
                 Flexible(
-                  child: CustomDropdown(
-                    value: shifts.first,
-                    items: shifts,
-                    label: 'Shift',
-                    onChanged: (value) {
-                      shiftController.text = value ?? '';
-                      setState(() {});
+                  child: BlocBuilder<GetShiftsBloc, GetShiftsState>(
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        loaded: (shifts) {
+                          return CustomDropdown<Shift>(
+                            value: shifts.first,
+                            items: shifts,
+                            label: 'Shift',
+                            onChanged: (value) {
+                              shiftId = value?.id;
+                              setState(() {});
+                            },
+                          );
+                        },
+                        orElse: () {
+                          return const Center(child: CircularProgressIndicator());
+                        },
+                      );
                     },
                   ),
                 ),
@@ -290,9 +317,56 @@ class _AddNewStaffMemberState extends State<AddNewStaffMember> {
                   ),
                   const SpaceWidth(16.0),
                   Flexible(
-                    child: Button.filled(
-                      onPressed: () {},
-                      label: 'Create',
+                    child: BlocConsumer<CreateStaffBloc, CreateStaffState>(
+                      listener: (context, state) {
+                        state.maybeWhen(
+                          loaded: () {
+                            context.read<GetStaffsBloc>().add(const GetStaffsEvent.getStaffs());
+                            context.pop();
+                          },
+                          error: (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(e), backgroundColor: Colors.red),
+                            );
+                          },
+                          orElse: () {},
+                        );
+                      },
+                      builder: (context, state) {
+                        return state.maybeWhen(
+                          loading: () => const Center(child: CircularProgressIndicator()),
+                          orElse: () {
+                            return Button.filled(
+                              onPressed: () {
+                                final staff = StaffRequestModel(
+                                  name: nameController.text,
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                  username: nameController.text,
+                                  isSuperadmin: 0,
+                                  roleId: roleId!,
+                                  userType: 'staff',
+                                  loginEnabled: 1,
+                                  status: 'active',
+                                  phone: phoneNumberController.text,
+                                  address: addressController.text,
+                                  departmentId: departmentId!,
+                                  designationId: designationId!,
+                                  shiftId: shiftId!,
+                                );
+
+                                print(staff.toJson());
+
+                                context.read<CreateStaffBloc>().add(CreateStaffEvent.createStaff(
+                                      data: staff,
+                                      photo: image!,
+                                    ));
+                              },
+                              label: 'Create',
+                            );
+                          },
+                        );
+                      },
                     ),
                   ),
                   const Spacer(),

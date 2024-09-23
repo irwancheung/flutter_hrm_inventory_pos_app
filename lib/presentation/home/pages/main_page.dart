@@ -4,8 +4,8 @@ import 'package:flutter_hrm_inventory_pos_app/presentation/home/pages/departemen
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/pages/designation_page.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/pages/holiday_page.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/pages/home_page.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/pages/leave_page.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/pages/leave_type_page.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/pages/leaves_page.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/pages/shift_page.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/pages/staff_member_page.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/pages/user_management_page.dart';
@@ -34,7 +34,7 @@ class _MainPageState extends State<MainPage> {
       const ShiftPage(),
       const HolidayPage(),
       const LeaveTypePage(),
-      const LeavesPage(),
+      const LeavePage(),
       const Center(child: Text('This is page 9')),
       const Center(child: Text('This is page 10')),
       const Center(child: Text('This is page 11')),

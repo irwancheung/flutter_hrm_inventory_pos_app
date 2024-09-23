@@ -62,4 +62,9 @@ class Role {
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
       };
+
+  @override
+  String toString() {
+    return name.toString();
+  }
 }

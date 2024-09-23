@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
 import 'package:flutter_hrm_inventory_pos_app/data/models/response/role_response_model.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/get_roles_bloc.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/update_role_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/role/get_roles_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/role/update_role_bloc.dart';
 
 class EditRole extends StatefulWidget {
   final Role item;

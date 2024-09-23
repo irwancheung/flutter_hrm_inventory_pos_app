@@ -7,14 +7,14 @@ import 'package:flutter_hrm_inventory_pos_app/presentation/home/models/leaves_mo
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/widgets/app_bar_widget.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/widgets/pagination_widget.dart';
 
-class LeavesPage extends StatefulWidget {
-  const LeavesPage({super.key});
+class LeavePage extends StatefulWidget {
+  const LeavePage({super.key});
 
   @override
-  State<LeavesPage> createState() => _LeavesPageState();
+  State<LeavePage> createState() => _LeavePageState();
 }
 
-class _LeavesPageState extends State<LeavesPage> {
+class _LeavePageState extends State<LeavePage> {
   bool isEmptyData = false;
   bool isAddForm = true;
   LeavesModel? leavesModel;

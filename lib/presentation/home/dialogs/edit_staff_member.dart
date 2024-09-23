@@ -1,11 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/models/staff_member_model.dart';
+import 'package:flutter_hrm_inventory_pos_app/data/models/response/staff_response_model.dart';
 
 class EditStaffMember extends StatefulWidget {
-  final StaffMemberModel item;
+  final Staff item;
   const EditStaffMember({super.key, required this.item});
 
   @override
@@ -31,18 +30,17 @@ class _EditStaffMemberState extends State<EditStaffMember> {
 
   @override
   void initState() {
-    warehouseController = TextEditingController(text: widget.item.warehouse);
-    roleController = TextEditingController(text: widget.item.role);
+    // warehouseController = TextEditingController(text: widget.item.warehouse);
+    // roleController = TextEditingController(text: widget.item.role);
     nameController = TextEditingController(text: widget.item.name);
     usernameController = TextEditingController(text: widget.item.username);
     emailController = TextEditingController(text: widget.item.email);
     passwordController = TextEditingController();
     phoneNumberController = TextEditingController(text: widget.item.phone);
     statusController = TextEditingController(text: widget.item.status);
-    departmentController = TextEditingController(text: widget.item.departement);
-    designationController =
-        TextEditingController(text: widget.item.designation);
-    shiftController = TextEditingController(text: widget.item.shift);
+    // departmentController = TextEditingController(text: widget.item.departement);
+    // designationController = TextEditingController(text: widget.item.designation);
+    // shiftController = TextEditingController(text: widget.item.shift);
     addressController = TextEditingController(text: widget.item.address);
     super.initState();
   }

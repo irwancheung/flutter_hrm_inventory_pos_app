@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/create_role_bloc.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/get_roles_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/role/create_role_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/role/get_roles_bloc.dart';
 
 class AddNewRole extends StatefulWidget {
   const AddNewRole({super.key});

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hrm_inventory_pos_app/core/components/spaces.dart';
 import 'package:flutter_hrm_inventory_pos_app/core/constants/colors.dart';
 
-class CustomDropdown extends StatelessWidget {
-  final String? value;
-  final List<String> items;
+class CustomDropdown<T> extends StatelessWidget {
+  final T? value;
+  final List<T> items;
   final String label;
-  final Function(String? value)? onChanged;
+  final Function(T? value)? onChanged;
   final bool showLabel;
 
   const CustomDropdown({
@@ -33,13 +33,13 @@ class CustomDropdown extends StatelessWidget {
           ),
           const SpaceHeight(12.0),
         ],
-        DropdownButtonFormField<String>(
+        DropdownButtonFormField<T>(
           value: value,
           onChanged: onChanged,
-          items: items.map((String item) {
-            return DropdownMenuItem<String>(
+          items: items.map((T item) {
+            return DropdownMenuItem<T>(
               value: item,
-              child: Text(item),
+              child: Text(item.toString()),
             );
           }).toList(),
           decoration: InputDecoration(
@@ -55,7 +55,7 @@ class CustomDropdown extends StatelessWidget {
               borderRadius: BorderRadius.circular(16.0),
               borderSide: const BorderSide(color: AppColors.stroke),
             ),
-            hintText: value ?? label,
+            hintText: label,
           ),
         ),
       ],
