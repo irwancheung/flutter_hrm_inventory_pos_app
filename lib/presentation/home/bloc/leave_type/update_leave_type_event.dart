@@ -7,7 +7,7 @@ class UpdateLeaveTypeEvent with _$UpdateLeaveTypeEvent {
     required int id,
     required String name,
     required bool isPaid,
-    required int totalLeave,
+    required int totalLeaves,
     required int maxLeavePerMonth,
   }) = _UpdateLeaveType;
 }

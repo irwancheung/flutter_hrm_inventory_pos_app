@@ -19,7 +19,7 @@ mixin _$UpdateLeaveTypeEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(int id, String name, bool isPaid, int totalLeave,
+    required TResult Function(int id, String name, bool isPaid, int totalLeaves,
             int maxLeavePerMonth)
         updateLeaveType,
   }) =>
@@ -27,7 +27,7 @@ mixin _$UpdateLeaveTypeEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(int id, String name, bool isPaid, int totalLeave,
+    TResult? Function(int id, String name, bool isPaid, int totalLeaves,
             int maxLeavePerMonth)?
         updateLeaveType,
   }) =>
@@ -35,7 +35,7 @@ mixin _$UpdateLeaveTypeEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(int id, String name, bool isPaid, int totalLeave,
+    TResult Function(int id, String name, bool isPaid, int totalLeaves,
             int maxLeavePerMonth)?
         updateLeaveType,
     required TResult orElse(),
@@ -126,7 +126,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(int id, String name, bool isPaid, int totalLeave,
+    required TResult Function(int id, String name, bool isPaid, int totalLeaves,
             int maxLeavePerMonth)
         updateLeaveType,
   }) {
@@ -137,7 +137,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(int id, String name, bool isPaid, int totalLeave,
+    TResult? Function(int id, String name, bool isPaid, int totalLeaves,
             int maxLeavePerMonth)?
         updateLeaveType,
   }) {
@@ -148,7 +148,7 @@ class _$StartedImpl implements _Started {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(int id, String name, bool isPaid, int totalLeave,
+    TResult Function(int id, String name, bool isPaid, int totalLeaves,
             int maxLeavePerMonth)?
         updateLeaveType,
     required TResult orElse(),
@@ -202,7 +202,11 @@ abstract class _$$UpdateLeaveTypeImplCopyWith<$Res> {
       __$$UpdateLeaveTypeImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
-      {int id, String name, bool isPaid, int totalLeave, int maxLeavePerMonth});
+      {int id,
+      String name,
+      bool isPaid,
+      int totalLeaves,
+      int maxLeavePerMonth});
 }
 
 /// @nodoc
@@ -221,7 +225,7 @@ class __$$UpdateLeaveTypeImplCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? isPaid = null,
-    Object? totalLeave = null,
+    Object? totalLeaves = null,
     Object? maxLeavePerMonth = null,
   }) {
     return _then(_$UpdateLeaveTypeImpl(
@@ -237,9 +241,9 @@ class __$$UpdateLeaveTypeImplCopyWithImpl<$Res>
           ? _value.isPaid
           : isPaid // ignore: cast_nullable_to_non_nullable
               as bool,
-      totalLeave: null == totalLeave
-          ? _value.totalLeave
-          : totalLeave // ignore: cast_nullable_to_non_nullable
+      totalLeaves: null == totalLeaves
+          ? _value.totalLeaves
+          : totalLeaves // ignore: cast_nullable_to_non_nullable
               as int,
       maxLeavePerMonth: null == maxLeavePerMonth
           ? _value.maxLeavePerMonth
@@ -256,7 +260,7 @@ class _$UpdateLeaveTypeImpl implements _UpdateLeaveType {
       {required this.id,
       required this.name,
       required this.isPaid,
-      required this.totalLeave,
+      required this.totalLeaves,
       required this.maxLeavePerMonth});
 
   @override
@@ -266,13 +270,13 @@ class _$UpdateLeaveTypeImpl implements _UpdateLeaveType {
   @override
   final bool isPaid;
   @override
-  final int totalLeave;
+  final int totalLeaves;
   @override
   final int maxLeavePerMonth;
 
   @override
   String toString() {
-    return 'UpdateLeaveTypeEvent.updateLeaveType(id: $id, name: $name, isPaid: $isPaid, totalLeave: $totalLeave, maxLeavePerMonth: $maxLeavePerMonth)';
+    return 'UpdateLeaveTypeEvent.updateLeaveType(id: $id, name: $name, isPaid: $isPaid, totalLeaves: $totalLeaves, maxLeavePerMonth: $maxLeavePerMonth)';
   }
 
   @override
@@ -283,15 +287,15 @@ class _$UpdateLeaveTypeImpl implements _UpdateLeaveType {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.isPaid, isPaid) || other.isPaid == isPaid) &&
-            (identical(other.totalLeave, totalLeave) ||
-                other.totalLeave == totalLeave) &&
+            (identical(other.totalLeaves, totalLeaves) ||
+                other.totalLeaves == totalLeaves) &&
             (identical(other.maxLeavePerMonth, maxLeavePerMonth) ||
                 other.maxLeavePerMonth == maxLeavePerMonth));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, name, isPaid, totalLeave, maxLeavePerMonth);
+      Object.hash(runtimeType, id, name, isPaid, totalLeaves, maxLeavePerMonth);
 
   /// Create a copy of UpdateLeaveTypeEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -306,36 +310,36 @@ class _$UpdateLeaveTypeImpl implements _UpdateLeaveType {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-    required TResult Function(int id, String name, bool isPaid, int totalLeave,
+    required TResult Function(int id, String name, bool isPaid, int totalLeaves,
             int maxLeavePerMonth)
         updateLeaveType,
   }) {
-    return updateLeaveType(id, name, isPaid, totalLeave, maxLeavePerMonth);
+    return updateLeaveType(id, name, isPaid, totalLeaves, maxLeavePerMonth);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-    TResult? Function(int id, String name, bool isPaid, int totalLeave,
+    TResult? Function(int id, String name, bool isPaid, int totalLeaves,
             int maxLeavePerMonth)?
         updateLeaveType,
   }) {
     return updateLeaveType?.call(
-        id, name, isPaid, totalLeave, maxLeavePerMonth);
+        id, name, isPaid, totalLeaves, maxLeavePerMonth);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
-    TResult Function(int id, String name, bool isPaid, int totalLeave,
+    TResult Function(int id, String name, bool isPaid, int totalLeaves,
             int maxLeavePerMonth)?
         updateLeaveType,
     required TResult orElse(),
   }) {
     if (updateLeaveType != null) {
-      return updateLeaveType(id, name, isPaid, totalLeave, maxLeavePerMonth);
+      return updateLeaveType(id, name, isPaid, totalLeaves, maxLeavePerMonth);
     }
     return orElse();
   }
@@ -377,13 +381,13 @@ abstract class _UpdateLeaveType implements UpdateLeaveTypeEvent {
       {required final int id,
       required final String name,
       required final bool isPaid,
-      required final int totalLeave,
+      required final int totalLeaves,
       required final int maxLeavePerMonth}) = _$UpdateLeaveTypeImpl;
 
   int get id;
   String get name;
   bool get isPaid;
-  int get totalLeave;
+  int get totalLeaves;
   int get maxLeavePerMonth;
 
   /// Create a copy of UpdateLeaveTypeEvent

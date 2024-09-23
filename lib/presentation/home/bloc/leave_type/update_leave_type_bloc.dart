@@ -17,7 +17,7 @@ class UpdateLeaveTypeBloc extends Bloc<UpdateLeaveTypeEvent, UpdateLeaveTypeStat
         id: event.id,
         name: event.name,
         isPaid: event.isPaid,
-        totalLeave: event.totalLeave,
+        totalLeaves: event.totalLeaves,
         maxLeavePerMonth: event.maxLeavePerMonth,
       );
 

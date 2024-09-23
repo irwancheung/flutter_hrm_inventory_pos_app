@@ -8,7 +8,7 @@ import 'package:flutter_hrm_inventory_pos_app/data/models/response/leave_type_re
 import 'package:http/http.dart' as http;
 
 class LeaveTypeRemoteDataSource {
-  static const _path = '/api/basic-salaries';
+  static const _path = '/api/leave-types';
 
   Future<Either<String, LeaveTypeResponseModel>> getLeaveTypes() async {
     final authData = await AuthLocalDataSource().getAuthData();
@@ -33,7 +33,7 @@ class LeaveTypeRemoteDataSource {
   Future<Either<String, String>> createLeaveType({
     required String name,
     required bool isPaid,
-    required int totalLeave,
+    required int totalLeaves,
     required int maxLeavePerMonth,
   }) async {
     final authData = await AuthLocalDataSource().getAuthData();
@@ -46,7 +46,7 @@ class LeaveTypeRemoteDataSource {
     final body = {
       'name': name,
       'is_paid': isPaid,
-      'total_leave': totalLeave,
+      'total_leaves': totalLeaves,
       'max_leave_per_month': maxLeavePerMonth,
     };
 
@@ -65,7 +65,7 @@ class LeaveTypeRemoteDataSource {
     required int id,
     required String name,
     required bool isPaid,
-    required int totalLeave,
+    required int totalLeaves,
     required int maxLeavePerMonth,
   }) async {
     final authData = await AuthLocalDataSource().getAuthData();
@@ -79,7 +79,7 @@ class LeaveTypeRemoteDataSource {
       'id': id,
       'name': name,
       'is_paid': isPaid,
-      'total_leave': totalLeave,
+      'total_leaves': totalLeaves,
       'max_leave_per_month': maxLeavePerMonth,
     };
 

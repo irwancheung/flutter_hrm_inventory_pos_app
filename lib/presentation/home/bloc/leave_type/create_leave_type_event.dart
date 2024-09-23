@@ -6,7 +6,7 @@ class CreateLeaveTypeEvent with _$CreateLeaveTypeEvent {
   const factory CreateLeaveTypeEvent.createLeaveType({
     required String name,
     required bool isPaid,
-    required int totalLeave,
+    required int totalLeaves,
     required int maxLeavePerMonth,
   }) = _CreateLeaveType;
 }

@@ -56,9 +56,7 @@ class _DesignationPageState extends State<DesignationPage> {
                     Button.filled(
                       onPressed: () => showDialog(
                         context: context,
-                        builder: (context) => AddNewDesignation(
-                          onConfirmTap: () {},
-                        ),
+                        builder: (context) => const AddNewDesignation(),
                       ),
                       label: 'Add New Designation',
                       fontSize: 14.0,
@@ -151,7 +149,7 @@ class _DesignationPageState extends State<DesignationPage> {
                                                   DataCell(
                                                     Row(
                                                       children: [
-                                                        BlocConsumer<DeleteDesignationBloc, DeleteDesignationState>(
+                                                        BlocListener<DeleteDesignationBloc, DeleteDesignationState>(
                                                           listener: (context, state) {
                                                             state.maybeWhen(
                                                               loaded: () {
@@ -168,24 +166,22 @@ class _DesignationPageState extends State<DesignationPage> {
                                                               orElse: () {},
                                                             );
                                                           },
-                                                          builder: (context, state) {
-                                                            return IconButton(
-                                                              onPressed: () => showDialog(
-                                                                context: context,
-                                                                builder: (context) => DeleteDialog(
-                                                                  onConfirmTap: () {
-                                                                    context.read<DeleteDesignationBloc>().add(
-                                                                        DeleteDesignationEvent.deleteDesignation(
-                                                                            item.id!));
-                                                                    context.pop();
-                                                                  },
-                                                                ),
+                                                          child: IconButton(
+                                                            onPressed: () => showDialog(
+                                                              context: context,
+                                                              builder: (context) => DeleteDialog(
+                                                                onConfirmTap: () {
+                                                                  context.read<DeleteDesignationBloc>().add(
+                                                                      DeleteDesignationEvent.deleteDesignation(
+                                                                          item.id!));
+                                                                  context.pop();
+                                                                },
                                                               ),
-                                                              icon: const Icon(
-                                                                Icons.delete_outline,
-                                                              ),
-                                                            );
-                                                          },
+                                                            ),
+                                                            icon: const Icon(
+                                                              Icons.delete_outline,
+                                                            ),
+                                                          ),
                                                         ),
                                                         IconButton(
                                                           onPressed: () => showDialog(

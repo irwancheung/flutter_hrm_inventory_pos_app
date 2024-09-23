@@ -15,7 +15,7 @@ class CreateLeaveTypeBloc extends Bloc<CreateLeaveTypeEvent, CreateLeaveTypeStat
       final result = await _leaveTypeRemoteDataSource.createLeaveType(
         name: event.name,
         isPaid: event.isPaid,
-        totalLeave: event.totalLeave,
+        totalLeaves: event.totalLeaves,
         maxLeavePerMonth: event.maxLeavePerMonth,
       );
 

@@ -20,7 +20,7 @@ mixin _$CreateLeaveTypeEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(
-            String name, bool isPaid, int totalLeave, int maxLeavePerMonth)
+            String name, bool isPaid, int totalLeaves, int maxLeavePerMonth)
         createLeaveType,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +28,7 @@ mixin _$CreateLeaveTypeEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(
-            String name, bool isPaid, int totalLeave, int maxLeavePerMonth)?
+            String name, bool isPaid, int totalLeaves, int maxLeavePerMonth)?
         createLeaveType,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ mixin _$CreateLeaveTypeEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(
-            String name, bool isPaid, int totalLeave, int maxLeavePerMonth)?
+            String name, bool isPaid, int totalLeaves, int maxLeavePerMonth)?
         createLeaveType,
     required TResult orElse(),
   }) =>
@@ -127,7 +127,7 @@ class _$StartedImpl implements _Started {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(
-            String name, bool isPaid, int totalLeave, int maxLeavePerMonth)
+            String name, bool isPaid, int totalLeaves, int maxLeavePerMonth)
         createLeaveType,
   }) {
     return started();
@@ -138,7 +138,7 @@ class _$StartedImpl implements _Started {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(
-            String name, bool isPaid, int totalLeave, int maxLeavePerMonth)?
+            String name, bool isPaid, int totalLeaves, int maxLeavePerMonth)?
         createLeaveType,
   }) {
     return started?.call();
@@ -149,7 +149,7 @@ class _$StartedImpl implements _Started {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(
-            String name, bool isPaid, int totalLeave, int maxLeavePerMonth)?
+            String name, bool isPaid, int totalLeaves, int maxLeavePerMonth)?
         createLeaveType,
     required TResult orElse(),
   }) {
@@ -201,7 +201,7 @@ abstract class _$$CreateLeaveTypeImplCopyWith<$Res> {
           $Res Function(_$CreateLeaveTypeImpl) then) =
       __$$CreateLeaveTypeImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String name, bool isPaid, int totalLeave, int maxLeavePerMonth});
+  $Res call({String name, bool isPaid, int totalLeaves, int maxLeavePerMonth});
 }
 
 /// @nodoc
@@ -219,7 +219,7 @@ class __$$CreateLeaveTypeImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? isPaid = null,
-    Object? totalLeave = null,
+    Object? totalLeaves = null,
     Object? maxLeavePerMonth = null,
   }) {
     return _then(_$CreateLeaveTypeImpl(
@@ -231,9 +231,9 @@ class __$$CreateLeaveTypeImplCopyWithImpl<$Res>
           ? _value.isPaid
           : isPaid // ignore: cast_nullable_to_non_nullable
               as bool,
-      totalLeave: null == totalLeave
-          ? _value.totalLeave
-          : totalLeave // ignore: cast_nullable_to_non_nullable
+      totalLeaves: null == totalLeaves
+          ? _value.totalLeaves
+          : totalLeaves // ignore: cast_nullable_to_non_nullable
               as int,
       maxLeavePerMonth: null == maxLeavePerMonth
           ? _value.maxLeavePerMonth
@@ -249,7 +249,7 @@ class _$CreateLeaveTypeImpl implements _CreateLeaveType {
   const _$CreateLeaveTypeImpl(
       {required this.name,
       required this.isPaid,
-      required this.totalLeave,
+      required this.totalLeaves,
       required this.maxLeavePerMonth});
 
   @override
@@ -257,13 +257,13 @@ class _$CreateLeaveTypeImpl implements _CreateLeaveType {
   @override
   final bool isPaid;
   @override
-  final int totalLeave;
+  final int totalLeaves;
   @override
   final int maxLeavePerMonth;
 
   @override
   String toString() {
-    return 'CreateLeaveTypeEvent.createLeaveType(name: $name, isPaid: $isPaid, totalLeave: $totalLeave, maxLeavePerMonth: $maxLeavePerMonth)';
+    return 'CreateLeaveTypeEvent.createLeaveType(name: $name, isPaid: $isPaid, totalLeaves: $totalLeaves, maxLeavePerMonth: $maxLeavePerMonth)';
   }
 
   @override
@@ -273,15 +273,15 @@ class _$CreateLeaveTypeImpl implements _CreateLeaveType {
             other is _$CreateLeaveTypeImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.isPaid, isPaid) || other.isPaid == isPaid) &&
-            (identical(other.totalLeave, totalLeave) ||
-                other.totalLeave == totalLeave) &&
+            (identical(other.totalLeaves, totalLeaves) ||
+                other.totalLeaves == totalLeaves) &&
             (identical(other.maxLeavePerMonth, maxLeavePerMonth) ||
                 other.maxLeavePerMonth == maxLeavePerMonth));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, name, isPaid, totalLeave, maxLeavePerMonth);
+      Object.hash(runtimeType, name, isPaid, totalLeaves, maxLeavePerMonth);
 
   /// Create a copy of CreateLeaveTypeEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -297,10 +297,10 @@ class _$CreateLeaveTypeImpl implements _CreateLeaveType {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(
-            String name, bool isPaid, int totalLeave, int maxLeavePerMonth)
+            String name, bool isPaid, int totalLeaves, int maxLeavePerMonth)
         createLeaveType,
   }) {
-    return createLeaveType(name, isPaid, totalLeave, maxLeavePerMonth);
+    return createLeaveType(name, isPaid, totalLeaves, maxLeavePerMonth);
   }
 
   @override
@@ -308,10 +308,10 @@ class _$CreateLeaveTypeImpl implements _CreateLeaveType {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(
-            String name, bool isPaid, int totalLeave, int maxLeavePerMonth)?
+            String name, bool isPaid, int totalLeaves, int maxLeavePerMonth)?
         createLeaveType,
   }) {
-    return createLeaveType?.call(name, isPaid, totalLeave, maxLeavePerMonth);
+    return createLeaveType?.call(name, isPaid, totalLeaves, maxLeavePerMonth);
   }
 
   @override
@@ -319,12 +319,12 @@ class _$CreateLeaveTypeImpl implements _CreateLeaveType {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(
-            String name, bool isPaid, int totalLeave, int maxLeavePerMonth)?
+            String name, bool isPaid, int totalLeaves, int maxLeavePerMonth)?
         createLeaveType,
     required TResult orElse(),
   }) {
     if (createLeaveType != null) {
-      return createLeaveType(name, isPaid, totalLeave, maxLeavePerMonth);
+      return createLeaveType(name, isPaid, totalLeaves, maxLeavePerMonth);
     }
     return orElse();
   }
@@ -365,12 +365,12 @@ abstract class _CreateLeaveType implements CreateLeaveTypeEvent {
   const factory _CreateLeaveType(
       {required final String name,
       required final bool isPaid,
-      required final int totalLeave,
+      required final int totalLeaves,
       required final int maxLeavePerMonth}) = _$CreateLeaveTypeImpl;
 
   String get name;
   bool get isPaid;
-  int get totalLeave;
+  int get totalLeaves;
   int get maxLeavePerMonth;
 
   /// Create a copy of CreateLeaveTypeEvent

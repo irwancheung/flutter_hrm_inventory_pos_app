@@ -1,41 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
-import 'package:flutter_hrm_inventory_pos_app/data/models/response/holiday_response_model.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/holiday/get_holidays_bloc.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/holiday/update_holiday_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/create_role_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/get_roles_bloc.dart';
 
-class EditHoliday extends StatefulWidget {
-  final Holiday item;
-  final VoidCallback onConfirmTap;
-  const EditHoliday({
-    super.key,
-    required this.item,
-    required this.onConfirmTap,
-  });
+class AddNewRole extends StatefulWidget {
+  const AddNewRole({super.key});
 
   @override
-  State<EditHoliday> createState() => _EditHolidayState();
+  State<AddNewRole> createState() => _AddNewRoleState();
 }
 
-class _EditHolidayState extends State<EditHoliday> {
-  late final TextEditingController holidayNameController;
-  late final TextEditingController datetimeController;
-
-  bool isWeekend = false;
+class _AddNewRoleState extends State<AddNewRole> {
+  late final TextEditingController nameController;
+  late final TextEditingController descriptionController;
 
   @override
   void initState() {
     super.initState();
-    holidayNameController = TextEditingController(text: widget.item.name);
-    datetimeController = TextEditingController(text: widget.item.date.toString());
-    isWeekend = widget.item.isWeekend! == 1 ? true : false;
+    nameController = TextEditingController();
+    descriptionController = TextEditingController();
   }
 
   @override
   void dispose() {
-    holidayNameController.dispose();
-    datetimeController.dispose();
+    nameController.dispose();
+    descriptionController.dispose();
     super.dispose();
   }
 
@@ -52,7 +42,7 @@ class _EditHolidayState extends State<EditHoliday> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Edit Holiday',
+                  'Add New Role',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.w600,
@@ -60,29 +50,19 @@ class _EditHolidayState extends State<EditHoliday> {
                 ),
                 const SpaceHeight(24.0),
                 CustomTextField(
-                  controller: holidayNameController,
+                  controller: nameController,
                   label: 'Name',
                   hintText: 'Please Enter Name',
                   textInputAction: TextInputAction.next,
                 ),
                 const SpaceHeight(12.0),
-                CustomDatePicker(
-                  initialDate: widget.item.date,
-                  label: 'Date',
-                  hintText: 'Select Date',
-                  onDateSelected: (selectedDate) => datetimeController.text = selectedDate.toString(),
+                CustomTextField(
+                  controller: descriptionController,
+                  label: 'Description',
+                  hintText: 'Please Enter Description',
+                  maxLines: 5,
                 ),
                 const SpaceHeight(24.0),
-                Row(
-                  children: [
-                    Checkbox(
-                      value: isWeekend,
-                      onChanged: (value) => setState(() => isWeekend = value!),
-                    ),
-                    const SpaceWidth(8.0),
-                    const Text('Is Weekend'),
-                  ],
-                ),
                 Row(
                   children: [
                     Flexible(
@@ -93,11 +73,11 @@ class _EditHolidayState extends State<EditHoliday> {
                     ),
                     const SpaceWidth(16.0),
                     Flexible(
-                      child: BlocConsumer<UpdateHolidayBloc, UpdateHolidayState>(
+                      child: BlocConsumer<CreateRoleBloc, CreateRoleState>(
                         listener: (context, state) {
                           state.maybeWhen(
                             loaded: () {
-                              context.read<GetHolidaysBloc>().add(const GetHolidaysEvent.getHolidays());
+                              context.read<GetRolesBloc>().add(const GetRolesEvent.getRoles());
                               context.pop();
                             },
                             error: (e) {
@@ -110,21 +90,19 @@ class _EditHolidayState extends State<EditHoliday> {
                         },
                         builder: (context, state) {
                           return state.maybeWhen(
+                            loading: () => const Center(child: CircularProgressIndicator()),
                             orElse: () {
                               return Button.filled(
                                 onPressed: () {
-                                  context.read<UpdateHolidayBloc>().add(
-                                        UpdateHolidayEvent.updateHoliday(
-                                          id: widget.item.id!,
-                                          name: holidayNameController.text,
-                                          year: int.parse(datetimeController.text.split('-')[0]),
-                                          month: int.parse(datetimeController.text.split('-')[1]),
-                                          date: DateTime.parse(datetimeController.text),
-                                          isWeekend: isWeekend,
+                                  context.read<CreateRoleBloc>().add(
+                                        CreateRoleEvent.createRole(
+                                          name: nameController.text,
+                                          displayName: nameController.text,
+                                          description: descriptionController.text,
                                         ),
                                       );
                                 },
-                                label: 'Update',
+                                label: 'Create',
                               );
                             },
                           );

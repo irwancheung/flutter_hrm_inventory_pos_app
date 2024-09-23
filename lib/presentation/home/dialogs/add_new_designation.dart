@@ -5,8 +5,7 @@ import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/designation
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/designation/get_designations_bloc.dart';
 
 class AddNewDesignation extends StatefulWidget {
-  final VoidCallback onConfirmTap;
-  const AddNewDesignation({super.key, required this.onConfirmTap});
+  const AddNewDesignation({super.key});
 
   @override
   State<AddNewDesignation> createState() => _AddNewDesignationState();

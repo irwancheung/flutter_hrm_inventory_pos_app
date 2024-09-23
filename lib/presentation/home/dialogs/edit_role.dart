@@ -1,41 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
-import 'package:flutter_hrm_inventory_pos_app/data/models/response/holiday_response_model.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/holiday/get_holidays_bloc.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/holiday/update_holiday_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/data/models/response/role_response_model.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/get_roles_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/update_role_bloc.dart';
 
-class EditHoliday extends StatefulWidget {
-  final Holiday item;
-  final VoidCallback onConfirmTap;
-  const EditHoliday({
-    super.key,
-    required this.item,
-    required this.onConfirmTap,
-  });
+class EditRole extends StatefulWidget {
+  final Role item;
+  const EditRole({super.key, required this.item});
 
   @override
-  State<EditHoliday> createState() => _EditHolidayState();
+  State<EditRole> createState() => _EditRoleState();
 }
 
-class _EditHolidayState extends State<EditHoliday> {
-  late final TextEditingController holidayNameController;
-  late final TextEditingController datetimeController;
-
-  bool isWeekend = false;
+class _EditRoleState extends State<EditRole> {
+  late final TextEditingController nameController;
+  late final TextEditingController descriptionController;
 
   @override
   void initState() {
     super.initState();
-    holidayNameController = TextEditingController(text: widget.item.name);
-    datetimeController = TextEditingController(text: widget.item.date.toString());
-    isWeekend = widget.item.isWeekend! == 1 ? true : false;
+    nameController = TextEditingController(text: widget.item.name);
+    descriptionController = TextEditingController(text: widget.item.description);
   }
 
   @override
   void dispose() {
-    holidayNameController.dispose();
-    datetimeController.dispose();
+    nameController.dispose();
+    descriptionController.dispose();
     super.dispose();
   }
 
@@ -52,7 +44,7 @@ class _EditHolidayState extends State<EditHoliday> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Edit Holiday',
+                  'Edit Role',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.w600,
@@ -60,29 +52,19 @@ class _EditHolidayState extends State<EditHoliday> {
                 ),
                 const SpaceHeight(24.0),
                 CustomTextField(
-                  controller: holidayNameController,
+                  controller: nameController,
                   label: 'Name',
                   hintText: 'Please Enter Name',
                   textInputAction: TextInputAction.next,
                 ),
                 const SpaceHeight(12.0),
-                CustomDatePicker(
-                  initialDate: widget.item.date,
-                  label: 'Date',
-                  hintText: 'Select Date',
-                  onDateSelected: (selectedDate) => datetimeController.text = selectedDate.toString(),
+                CustomTextField(
+                  controller: descriptionController,
+                  label: 'Description',
+                  hintText: 'Please Enter Description',
+                  maxLines: 5,
                 ),
                 const SpaceHeight(24.0),
-                Row(
-                  children: [
-                    Checkbox(
-                      value: isWeekend,
-                      onChanged: (value) => setState(() => isWeekend = value!),
-                    ),
-                    const SpaceWidth(8.0),
-                    const Text('Is Weekend'),
-                  ],
-                ),
                 Row(
                   children: [
                     Flexible(
@@ -93,11 +75,11 @@ class _EditHolidayState extends State<EditHoliday> {
                     ),
                     const SpaceWidth(16.0),
                     Flexible(
-                      child: BlocConsumer<UpdateHolidayBloc, UpdateHolidayState>(
+                      child: BlocConsumer<UpdateRoleBloc, UpdateRoleState>(
                         listener: (context, state) {
                           state.maybeWhen(
                             loaded: () {
-                              context.read<GetHolidaysBloc>().add(const GetHolidaysEvent.getHolidays());
+                              context.read<GetRolesBloc>().add(const GetRolesEvent.getRoles());
                               context.pop();
                             },
                             error: (e) {
@@ -110,17 +92,16 @@ class _EditHolidayState extends State<EditHoliday> {
                         },
                         builder: (context, state) {
                           return state.maybeWhen(
+                            loading: () => const Center(child: CircularProgressIndicator()),
                             orElse: () {
                               return Button.filled(
                                 onPressed: () {
-                                  context.read<UpdateHolidayBloc>().add(
-                                        UpdateHolidayEvent.updateHoliday(
+                                  context.read<UpdateRoleBloc>().add(
+                                        UpdateRoleEvent.updateRole(
                                           id: widget.item.id!,
-                                          name: holidayNameController.text,
-                                          year: int.parse(datetimeController.text.split('-')[0]),
-                                          month: int.parse(datetimeController.text.split('-')[1]),
-                                          date: DateTime.parse(datetimeController.text),
-                                          isWeekend: isWeekend,
+                                          name: nameController.text,
+                                          displayName: nameController.text,
+                                          description: descriptionController.text,
                                         ),
                                       );
                                 },

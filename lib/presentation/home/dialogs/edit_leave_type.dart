@@ -1,33 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/holiday/create_holiday_bloc.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/holiday/get_holidays_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/data/models/response/leave_type_response_model.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/leave_type/get_leave_types_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/leave_type/update_leave_type_bloc.dart';
 
-class AddNewHoliday extends StatefulWidget {
-  const AddNewHoliday({super.key});
+class EditLeaveType extends StatefulWidget {
+  final LeaveType item;
+  const EditLeaveType({super.key, required this.item});
 
   @override
-  State<AddNewHoliday> createState() => _AddNewHolidayState();
+  State<EditLeaveType> createState() => _EditLeaveTypeState();
 }
 
-class _AddNewHolidayState extends State<AddNewHoliday> {
-  late final TextEditingController holidayNameController;
-  late final TextEditingController datetimeController;
+class _EditLeaveTypeState extends State<EditLeaveType> {
+  late final TextEditingController nameController;
+  late final TextEditingController totalLeavesController;
+  late final TextEditingController maxLeavePerMonthController;
 
-  bool isWeekend = false;
+  bool isPaid = false;
 
   @override
   void initState() {
-    holidayNameController = TextEditingController();
-    datetimeController = TextEditingController();
     super.initState();
+    nameController = TextEditingController(text: widget.item.name);
+    totalLeavesController = TextEditingController(text: widget.item.totalLeaves.toString());
+    maxLeavePerMonthController = TextEditingController(text: widget.item.maxLeavePerMonth.toString());
+    isPaid = widget.item.isPaid == 1 ? true : false;
   }
 
   @override
   void dispose() {
-    holidayNameController.dispose();
-    datetimeController.dispose();
+    nameController.dispose();
+    totalLeavesController.dispose();
+    maxLeavePerMonthController.dispose();
     super.dispose();
   }
 
@@ -44,7 +50,7 @@ class _AddNewHolidayState extends State<AddNewHoliday> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Add New Holiday',
+                  'Edit Leave Type',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.w600,
@@ -52,26 +58,35 @@ class _AddNewHolidayState extends State<AddNewHoliday> {
                 ),
                 const SpaceHeight(24.0),
                 CustomTextField(
-                  controller: holidayNameController,
+                  controller: nameController,
                   label: 'Name',
                   hintText: 'Please Enter Name',
                   textInputAction: TextInputAction.next,
                 ),
-                const SpaceHeight(12.0),
-                CustomDatePicker(
-                  label: 'Date',
-                  hintText: 'Select Date',
-                  onDateSelected: (selectedDate) => datetimeController.text = selectedDate.toString(),
+                const SpaceHeight(24.0),
+                CustomTextField(
+                  controller: totalLeavesController,
+                  label: 'Total Leaves',
+                  hintText: 'Please Enter Total Leaves',
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.next,
                 ),
                 const SpaceHeight(24.0),
+                CustomTextField(
+                  controller: maxLeavePerMonthController,
+                  label: 'Max Leave per Month',
+                  hintText: 'Please Enter Max Leave per Month',
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.next,
+                ),
                 Row(
                   children: [
                     Checkbox(
-                      value: isWeekend,
-                      onChanged: (value) => setState(() => isWeekend = value!),
+                      value: isPaid,
+                      onChanged: (value) => setState(() => isPaid = value!),
                     ),
                     const SpaceWidth(8.0),
-                    const Text('Is Weekend'),
+                    const Text('Is Paid'),
                   ],
                 ),
                 Row(
@@ -83,11 +98,11 @@ class _AddNewHolidayState extends State<AddNewHoliday> {
                       ),
                     ),
                     const SpaceWidth(16.0),
-                    BlocConsumer<CreateHolidayBloc, CreateHolidayState>(
+                    BlocConsumer<UpdateLeaveTypeBloc, UpdateLeaveTypeState>(
                       listener: (context, state) {
                         state.maybeWhen(
                           loaded: () {
-                            context.read<GetHolidaysBloc>().add(const GetHolidaysEvent.getHolidays());
+                            context.read<GetLeaveTypesBloc>().add(const GetLeaveTypesEvent.getLeaveTypes());
                             context.pop();
                           },
                           error: (e) {
@@ -106,13 +121,13 @@ class _AddNewHolidayState extends State<AddNewHoliday> {
                               child: Button.filled(
                                 label: 'Create',
                                 onPressed: () {
-                                  context.read<CreateHolidayBloc>().add(
-                                        CreateHolidayEvent.createHoliday(
-                                          name: holidayNameController.text,
-                                          year: int.parse(datetimeController.text.split('-')[0]),
-                                          month: int.parse(datetimeController.text.split('-')[1]),
-                                          date: DateTime.parse(datetimeController.text),
-                                          isWeekend: isWeekend,
+                                  context.read<UpdateLeaveTypeBloc>().add(
+                                        UpdateLeaveTypeEvent.updateLeaveType(
+                                          id: widget.item.id!,
+                                          name: nameController.text,
+                                          totalLeaves: int.parse(totalLeavesController.text),
+                                          maxLeavePerMonth: int.parse(maxLeavePerMonthController.text),
+                                          isPaid: isPaid,
                                         ),
                                       );
                                 },

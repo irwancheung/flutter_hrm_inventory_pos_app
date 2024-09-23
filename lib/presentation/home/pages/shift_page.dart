@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
 import 'package:flutter_hrm_inventory_pos_app/data/models/response/shift_response_model.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/shift/delete_shift_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/shift/get_shifts_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/add_new_shift.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/delete_dialog.dart';
@@ -17,7 +18,6 @@ class ShiftPage extends StatefulWidget {
 }
 
 class _ShiftPageState extends State<ShiftPage> {
-  bool isEmptyData = false;
   bool isAddForm = true;
   Shift? shiftModel;
 
@@ -123,9 +123,9 @@ class _ShiftPageState extends State<ShiftPage> {
                                       const DataColumn(label: Text('Clock In Time')),
                                       const DataColumn(label: Text('Clock Out Time')),
                                       // const DataColumn(label: Text('Self Clocking')),
-                                      const DataColumn(
-                                        label: Text('Late Mark After'),
-                                      ),
+                                      // const DataColumn(
+                                      //   label: Text('Late Mark After'),
+                                      // ),
                                       const DataColumn(label: Text('')),
                                     ],
                                     rows: shifts.isEmpty
@@ -184,11 +184,11 @@ class _ShiftPageState extends State<ShiftPage> {
                                                       item.clockOutTime!,
                                                     ),
                                                   ),
-                                                  DataCell(
-                                                    Text(
-                                                      '${item.lateMarkAfter} Minutes',
-                                                    ),
-                                                  ),
+                                                  // DataCell(
+                                                  //   Text(
+                                                  //     '${item.lateMarkAfter} Minutes',
+                                                  //   ),
+                                                  // ),
                                                   // DataCell(
                                                   //   Container(
                                                   //     padding: const EdgeInsets.symmetric(
@@ -216,15 +216,38 @@ class _ShiftPageState extends State<ShiftPage> {
                                                   DataCell(
                                                     Row(
                                                       children: [
-                                                        IconButton(
-                                                          onPressed: () => showDialog(
-                                                            context: context,
-                                                            builder: (context) => DeleteDialog(
-                                                              onConfirmTap: () {},
+                                                        BlocListener<DeleteShiftBloc, DeleteShiftState>(
+                                                          listener: (context, state) {
+                                                            state.maybeWhen(
+                                                              loaded: () {
+                                                                context
+                                                                    .read<GetShiftsBloc>()
+                                                                    .add(const GetShiftsEvent.getShifts());
+                                                              },
+                                                              error: (e) {
+                                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                                  SnackBar(
+                                                                      content: Text(e), backgroundColor: Colors.red),
+                                                                );
+                                                              },
+                                                              orElse: () {},
+                                                            );
+                                                          },
+                                                          child: IconButton(
+                                                            onPressed: () => showDialog(
+                                                              context: context,
+                                                              builder: (context) => DeleteDialog(
+                                                                onConfirmTap: () {
+                                                                  context
+                                                                      .read<DeleteShiftBloc>()
+                                                                      .add(DeleteShiftEvent.deleteShift(item.id!));
+                                                                  context.pop();
+                                                                },
+                                                              ),
                                                             ),
-                                                          ),
-                                                          icon: const Icon(
-                                                            Icons.delete_outline,
+                                                            icon: const Icon(
+                                                              Icons.delete_outline,
+                                                            ),
                                                           ),
                                                         ),
                                                         IconButton(

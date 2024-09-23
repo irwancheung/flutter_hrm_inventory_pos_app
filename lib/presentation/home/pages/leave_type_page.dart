@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hrm_inventory_pos_app/core/core.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/delete_role_bloc.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/get_roles_bloc.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/add_new_role.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/leave_type/delete_leave_type_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/bloc/leave_type/get_leave_types_bloc.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/add_new_leave.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/add_new_leave_type.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/delete_dialog.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/edit_permission_user.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/edit_role.dart';
-import 'package:flutter_hrm_inventory_pos_app/presentation/home/models/user_management_model.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/edit_leave.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/dialogs/edit_leave_type.dart';
+import 'package:flutter_hrm_inventory_pos_app/presentation/home/models/leaves_model.dart';
 import 'package:flutter_hrm_inventory_pos_app/presentation/home/widgets/app_bar_widget.dart';
 
-class UserManagementPage extends StatefulWidget {
-  const UserManagementPage({super.key});
+class LeaveTypePage extends StatefulWidget {
+  const LeaveTypePage({super.key});
 
   @override
-  State<UserManagementPage> createState() => _UserManagementPageState();
+  State<LeaveTypePage> createState() => _LeaveTypePageState();
 }
 
-class _UserManagementPageState extends State<UserManagementPage> {
+class _LeaveTypePageState extends State<LeaveTypePage> {
   bool isEmptyData = false;
   bool isAddForm = true;
+  LeavesModel? leavesModel;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final searchController = TextEditingController();
@@ -27,24 +29,48 @@ class _UserManagementPageState extends State<UserManagementPage> {
   @override
   void initState() {
     super.initState();
-    context.read<GetRolesBloc>().add(const GetRolesEvent.getRoles());
+    context.read<GetLeaveTypesBloc>().add(const GetLeaveTypesEvent.getLeaveTypes());
   }
 
-  void showEndDrawer(bool isAdd, [UserManagementModel? item]) {
+  void showEndDrawer(bool isAdd, [LeavesModel? item]) {
     setState(() {
       isAddForm = isAdd;
+      leavesModel = item;
     });
-    // delete condition when UI add role is available
-    if (!isAdd) {
-      _scaffoldKey.currentState?.openEndDrawer();
-    }
+    _scaffoldKey.currentState?.openEndDrawer();
   }
 
   Widget endDrawerWidget() {
     if (isAddForm) {
-      return const SizedBox.shrink();
+      return const AddNewLeave();
     }
-    return const EditPermissionUser();
+    return EditLeave(item: leavesModel!);
+  }
+
+  String labelStatus(LeaveStatus status) {
+    switch (status) {
+      case LeaveStatus.pending:
+        return 'Pending';
+      case LeaveStatus.approve:
+        return 'Approve';
+      case LeaveStatus.rejected:
+        return 'Rejected';
+      default:
+        return 'Status Not Found!';
+    }
+  }
+
+  Color colorStatus(LeaveStatus status) {
+    switch (status) {
+      case LeaveStatus.pending:
+        return AppColors.yellow;
+      case LeaveStatus.approve:
+        return AppColors.green;
+      case LeaveStatus.rejected:
+        return AppColors.red;
+      default:
+        return AppColors.gray;
+    }
   }
 
   @override
@@ -54,7 +80,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
       endDrawer: endDrawerWidget(),
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(70.0),
-        child: AppBarWidget(title: 'User Management'),
+        child: AppBarWidget(title: 'Leaves'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -79,20 +105,20 @@ class _UserManagementPageState extends State<UserManagementPage> {
                     Button.filled(
                       onPressed: () => showDialog(
                         context: context,
-                        builder: (context) => const AddNewRole(),
+                        builder: (context) => const AddNewLeaveType(),
                       ),
-                      label: 'Add New Role',
+                      label: 'Add New Leave Type',
                       fontSize: 14.0,
-                      width: 200.0,
+                      width: 250.0,
                     ),
                   ],
                 ),
               ),
-              BlocBuilder<GetRolesBloc, GetRolesState>(
+              BlocBuilder<GetLeaveTypesBloc, GetLeaveTypesState>(
                 builder: (context, state) {
                   return state.maybeWhen(
                     loading: () => const Center(child: CircularProgressIndicator()),
-                    loaded: (roles) {
+                    loaded: (leaveTypes) {
                       return Expanded(
                         child: SingleChildScrollView(
                           child: Column(
@@ -115,11 +141,13 @@ class _UserManagementPageState extends State<UserManagementPage> {
                                           ),
                                         ),
                                       ),
-                                      const DataColumn(label: Text('Role Name')),
-                                      const DataColumn(label: Text('Description')),
+                                      const DataColumn(label: Text('Name')),
+                                      const DataColumn(label: Text('Is Paid')),
+                                      const DataColumn(label: Text('Total Leaves')),
+                                      const DataColumn(label: Text('Max Leaves Per Month')),
                                       const DataColumn(label: Text('')),
                                     ],
-                                    rows: roles.isEmpty
+                                    rows: leaveTypes.isEmpty
                                         ? [
                                             const DataRow(
                                               cells: [
@@ -135,10 +163,12 @@ class _UserManagementPageState extends State<UserManagementPage> {
                                                 DataCell.empty,
                                                 DataCell.empty,
                                                 DataCell.empty,
+                                                DataCell.empty,
+                                                DataCell.empty,
                                               ],
                                             ),
                                           ]
-                                        : roles
+                                        : leaveTypes
                                             .map(
                                               (item) => DataRow(
                                                 cells: [
@@ -152,18 +182,28 @@ class _UserManagementPageState extends State<UserManagementPage> {
                                                       ),
                                                     ),
                                                   ),
-                                                  DataCell(Text(item.name!)),
-                                                  DataCell(Text(item.description!)),
+                                                  DataCell(
+                                                    Text(
+                                                      item.name!,
+                                                      style: const TextStyle(
+                                                        fontWeight: FontWeight.w600,
+                                                        color: AppColors.black,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  DataCell(Text(item.isPaid! == 1 ? 'Yes' : 'No')),
+                                                  DataCell(Text(item.totalLeaves!.toString())),
+                                                  DataCell(Text(item.maxLeavePerMonth!.toString())),
                                                   DataCell(
                                                     Row(
                                                       children: [
-                                                        BlocListener<DeleteRoleBloc, DeleteRoleState>(
+                                                        BlocListener<DeleteLeaveTypeBloc, DeleteLeaveTypeState>(
                                                           listener: (context, state) {
                                                             state.maybeWhen(
                                                               loaded: () {
                                                                 context
-                                                                    .read<GetRolesBloc>()
-                                                                    .add(const GetRolesEvent.getRoles());
+                                                                    .read<GetLeaveTypesBloc>()
+                                                                    .add(const GetLeaveTypesEvent.getLeaveTypes());
                                                               },
                                                               error: (e) {
                                                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -179,9 +219,8 @@ class _UserManagementPageState extends State<UserManagementPage> {
                                                               context: context,
                                                               builder: (context) => DeleteDialog(
                                                                 onConfirmTap: () {
-                                                                  context
-                                                                      .read<DeleteRoleBloc>()
-                                                                      .add(DeleteRoleEvent.deleteRole(item.id!));
+                                                                  context.read<DeleteLeaveTypeBloc>().add(
+                                                                      DeleteLeaveTypeEvent.deleteLeaveType(item.id!));
                                                                   context.pop();
                                                                 },
                                                               ),
@@ -194,7 +233,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
                                                         IconButton(
                                                           onPressed: () => showDialog(
                                                             context: context,
-                                                            builder: (context) => EditRole(item: item),
+                                                            builder: (context) => EditLeaveType(item: item),
                                                           ),
                                                           icon: const Icon(
                                                             Icons.edit_outlined,
